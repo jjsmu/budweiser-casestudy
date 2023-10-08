@@ -1,0 +1,80 @@
+---
+title: "EDA Budweiser dataset"
+author: "jjsmu"
+date: "10/8/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# PART I Import data
+
+```{r}
+# read the csv files
+BEERS = read.csv(file.choose(), header = TRUE)
+BREWERIES = read.csv(file.choose(), header = TRUE)
+# check first five rows
+head(BEERS, n = 5)
+head(BREWERIES, n = 5)
+# look at data frame
+str(BEERS)
+str(BREWERIES)
+# display summary statistics
+summary(BEERS)
+summary(BREWERIES)
+
+```
+
+# PART II EDA Visualization
+```{r}
+# visualization
+
+hist(BEERS$Ounces, main = paste("Histogram of Beers by Volume (Ounce), n = ", length(table(beerOunceAsFactor))), xlab = "Volume (oz.)", ylab = "Frequency", col = "lightblue", border = "black")
+plot(BEERS$Beer_ID, BEERS$ABV, pch = 15, xlab = "Beer_ID", ylab = "ABV(%)", main = paste("Beer_ID v. ABV, n = ", length(BEERS$Beer_ID)))
+boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
+
+```
+
+# PART III
+```{r}
+
+# tidy data
+library(naniar)
+
+# plot missing variables
+gg_miss_var(BEERS) # IBU, ABV Missing
+gg_miss_var(BREWERIES) 
+
+# test for NA values
+sum(is.na(BEERS$ABV)) # missing 62 values
+sum(is.na(BEERS$IBU)) # missing 1005 values
+
+grepl()
+
+# test the function complete.cases() on gg_miss_var
+gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
+
+# replace missing NA values with new value
+BEERS <- BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ]
+
+gg_miss_var(BEERS) # fixed missing IBU, ABV
+
+#install.packages("tidyverse")
+library(tidyverse)
+
+# TODO Plot with/without missing NA values ABV, IBU, check for skewness
+```
+
+
+# PART VII
+
+```{r}
+#install package and load library
+install.packages("class")
+install.packages("caret")
+install.packages("e1071")
+library(class)
+library(caret)
+library(e1071)
+```
