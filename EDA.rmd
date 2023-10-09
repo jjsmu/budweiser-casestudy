@@ -72,16 +72,6 @@ barplot_of_breweries_by_state <- BREWERIES %>%
   xlab("State") + ylab("Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_of_breweries_by_state
-# ggplot2 bar plot of breweries by state descending order
-barplot_of_breweries_by_state <- BREWERIES %>%
-  group_by(State) %>%
-  summarise(Count = n()) %>%
-  arrange(desc(Count)) %>%  # This line arranges the summarized data in descending order of count
-  ggplot(aes(reorder(State, Count), Count)) +  # This line reorders the State variable based on Count
-  geom_bar(stat = "identity") +  # You need to set stat = "identity" since you have already counted the data
-  ggtitle(paste("Barplot of Breweries by State (US), n = ", sum(Count))) +
-  xlab("State") + ylab("Count") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 box_plot_breweries_by_state 
 
@@ -92,9 +82,22 @@ box_plot_breweries_by_state
 boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
 
 ```
+# PART II
+# 2. 	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
+```{r}
+# full merge beer and breweries data frames 
+BEER_AND_BREWERIES <- merge(BEERS, BREWERIES, by.x = "Brewery_id", by.y = "Brew_ID", all = TRUE) %>%
+  rename(Beer = Name.x, Brewery = Name.y)
+# view complete table
+View(BEER_AND_BREWERIES)
+# print the first 6 observations
+print(head(BEER_AND_BREWERIES, n = 6))
+# print the last 6 observations
+print(tail(BEER_AND_BREWERIES, n = 6))
+```
 
 # PART III
-#3.	Address the missing values in each column.
+# 3.	Address the missing values in each column.
 ```{r}
 
 # tidy data
@@ -103,11 +106,14 @@ library(naniar)
 # plot missing variables
 gg_miss_var(BEERS) # IBU, ABV Missing
 gg_miss_var(BREWERIES) 
+gg_miss_var(BEER_AND_BREWERIES)
 
 # test for NA values
 sum(is.na(BEERS$ABV)) # missing 62 values
 sum(is.na(BEERS$IBU)) # missing 1005 values
+sum(is.na(BEER_AND_BREWERIES)) # missing 1067 values
 
+# find the missing NA value index
 grepl()
 
 # test the function complete.cases() on gg_miss_var
@@ -122,6 +128,15 @@ gg_miss_var(BEERS) # fixed missing IBU, ABV
 library(tidyverse)
 
 # TODO Plot with/without missing NA values ABV, IBU, check for skewness
+```
+# PART IV 
+# 4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+
+```{r}
+meadian_abv_by_state <- BEERS %>%
+  group_by(State) %>%
+  summarize(meanABV = mean(ABV), meanIBU = mean(IBU))
+
 ```
 
 
