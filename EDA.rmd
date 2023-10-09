@@ -66,14 +66,22 @@ total_breweries <- sum(breweries_by_state$Count)
 
 # ggplot2 bar plot of breweries by state
 barplot_of_breweries_by_state <- BREWERIES %>%
-  group_by (State) %>%
-  ggplot (aes(State)) + geom_bar(stat = "count") +
+  group_by(State) %>%
+  ggplot(aes(State)) + geom_bar(stat = "count") +
   ggtitle(paste("Barplot of Breweries by State (US), n = ", total_breweries)) +
   xlab("State") + ylab("Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_of_breweries_by_state
-
-hist_of_breweries_by_state
+# ggplot2 bar plot of breweries by state descending order
+barplot_of_breweries_by_state <- BREWERIES %>%
+  group_by(State) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%  # This line arranges the summarized data in descending order of count
+  ggplot(aes(reorder(State, Count), Count)) +  # This line reorders the State variable based on Count
+  geom_bar(stat = "identity") +  # You need to set stat = "identity" since you have already counted the data
+  ggtitle(paste("Barplot of Breweries by State (US), n = ", sum(Count))) +
+  xlab("State") + ylab("Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 box_plot_breweries_by_state 
 
