@@ -138,13 +138,31 @@ median_abv_by_state
 # PART V
 #5.	Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 ```{r}
+library(maps)
+library(mapproj)
+
 max_abv_by_state <- BEER_AND_BREWERIES
+
+mapData <- count(BEER_AND_BREWERIES, State)
+colnames(mapData)[1] = "abb"
+colnames(mapData)[2] = "Total_Breweries"
+mapData
+
+lookup = data.frame(abb = state.abb, State = state.name) #makes a data frame with State name and abbreviation. 
+lookup
+
+merge(mapData, lookup, by = "abb")
+
+states <- map_data("state")
+states
+map.df <- merge()
 ```
 
 # PART VI
 # 6.	Comment on the summary statistics and distribution of the ABV variable.
 ```{r}
 
+  
 ```
 
 # PART VII
@@ -171,6 +189,6 @@ library(e1071)
 
 ```{r}
 # use of themes and advanced plots
-# eda 1: number of breweries v. median ibus
+# eda 1: number of breweries v. median ibu
 ```
 
