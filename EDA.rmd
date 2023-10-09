@@ -3,6 +3,19 @@ title: "EDA Budweiser dataset"
 author: "jjsmu"
 date: "10/8/2023"
 output: html_document
+
+#1.	How many breweries are present in each state?
+#2.	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
+#3.	Address the missing values in each column.
+#4.	Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+#5.	Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+#6.	Comment on the summary statistics and distribution of the ABV variable.
+#7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
+#8.	Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) and other types of Ale (any beer with “Ale” in its name other than IPA).  You decide to use KNN classification to investigate this relationship.  Provide statistical evidence one way or the other. You can of course assume your audience is comfortable with percentages … KNN is very easy to understand conceptually. 
+#In addition, while you have decided to use KNN to investigate this relationship (KNN is required) you may also feel free to supplement your response to this question with any other methods or techniques you have learned.  Creativity and alternative solutions are always encouraged.  
+
+#9.	Knock their socks off!  Find one other useful inference from the data that you feel Budweiser may be able to find value in.  You must convince them why it is important and back up your conviction with appropriate statistical evidence. 
+
 ---
 
 ```{r setup, include=FALSE}
@@ -20,23 +33,60 @@ head(BREWERIES, n = 5)
 # look at data frame
 str(BEERS)
 str(BREWERIES)
+```
+
+# PART II EDA Visualization
+# 1.	How many breweries are present in each state?
+```{r}
+# visualization
+
+# R libraries
+#install.packages(dplyr)
+library(dplyr)
+#install.packages(ggplot)
+library(ggplot2)
+
 # display summary statistics
 summary(BEERS)
 summary(BREWERIES)
 
-```
+# full table view
+View(BEERS)
+View(BREWERIES)
 
-# PART II EDA Visualization
-```{r}
-# visualization
+# view count of breweries by state
+breweries_by_state <- BREWERIES %>% 
+  group_by (State) %>%
+  summarize (Count = n()) %>%
+  arrange (desc(Count))
+View(breweries_by_state)
 
-hist(BEERS$Ounces, main = paste("Histogram of Beers by Volume (Ounce), n = ", length(table(beerOunceAsFactor))), xlab = "Volume (oz.)", ylab = "Frequency", col = "lightblue", border = "black")
-plot(BEERS$Beer_ID, BEERS$ABV, pch = 15, xlab = "Beer_ID", ylab = "ABV(%)", main = paste("Beer_ID v. ABV, n = ", length(BEERS$Beer_ID)))
+# total number of breweries in US
+total_breweries <- sum(breweries_by_state$Count)
+
+# ggplot2 bar plot of breweries by state
+barplot_of_breweries_by_state <- BREWERIES %>%
+  group_by (State) %>%
+  ggplot (aes(State)) + geom_bar(stat = "count") +
+  ggtitle(paste("Barplot of Breweries by State (US), n = ", total_breweries)) +
+  xlab("State") + ylab("Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot_of_breweries_by_state
+
+hist_of_breweries_by_state
+
+box_plot_breweries_by_state 
+
+#hist(BEERS$Ounces, main = paste("Histogram of Beers by Volume (Ounce), n = ", length(table(beerOunceAsFactor))), xlab = "Volume (oz.)", ylab = "Frequency", col = "lightblue", border = "black")
+
+#plot(BEERS$Beer_ID, BEERS$ABV, pch = 15, xlab = "Beer_ID", ylab = "ABV(%)", main = paste("Beer_ID v. ABV, n = ", length(BEERS$Beer_ID)))
+
 boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
 
 ```
 
 # PART III
+#3.	Address the missing values in each column.
 ```{r}
 
 # tidy data
