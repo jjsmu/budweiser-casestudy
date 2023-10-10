@@ -81,8 +81,6 @@ box_plot_breweries_by_state
 
 #plot(BEERS$Beer_ID, BEERS$ABV, pch = 15, xlab = "Beer_ID", ylab = "ABV(%)", main = paste("Beer_ID v. ABV, n = ", length(BEERS$Beer_ID)))
 
-boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
-
 ```
 # PART II
 # 2. 	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
@@ -115,8 +113,8 @@ sum(is.na(BEERS$ABV)) # missing 62 values
 sum(is.na(BEERS$IBU)) # missing 1005 values
 sum(is.na(BEER_AND_BREWERIES)) # missing 1067 values
 
-# find the missing NA value index
-grepl()
+# find the missing NA value indexes
+grep()
 
 # test the function complete.cases() on gg_miss_var
 gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
@@ -132,8 +130,21 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 ```{r}
 median_abv_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
+  filter(!is.na(ABV) & !is.na(IBU))
   summarize(median_ABV = median(ABV), median_IBU = median(IBU))
 median_abv_by_state
+
+total_states <- count(median_abv_by_state)
+
+median_abv_by_state %>%
+  ggplot(aes(State, median_ABV)) + 
+  geom_bar(stat = "identity") +
+  ggtitle(paste("Barplot of Median Alcohol by Volume (% ABV) by State (US), n = ", total_states)) +
+  xlab("State") + ylab("Median ABV (%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
+
 ```
 # PART V
 #5.	Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
@@ -141,21 +152,27 @@ median_abv_by_state
 library(maps)
 library(mapproj)
 
-max_abv_by_state <- BEER_AND_BREWERIES
+max_abv_by_state <- BEER_AND_BREWERIES %>%
+  group_by(State) %>%
+
+max_ibu_by_state <- BEER_AND_BREWERIES %>%
+  group_by(State) %>%
+  
 
 mapData <- count(BEER_AND_BREWERIES, State)
-colnames(mapData)[1] = "abb"
 colnames(mapData)[2] = "Total_Breweries"
-mapData
+str(mapData)
 
 lookup = data.frame(abb = state.abb, State = state.name) #makes a data frame with State name and abbreviation. 
-lookup
+colnames(lookup)[1] = "State"
+colnames(lookup)[2] = "Name"
+str(lookup)
 
-merge(mapData, lookup, by = "abb")
+joined_data <- full_join(mapData, lookup, by = "State")
 
 states <- map_data("state")
-states
-map.df <- merge()
+
+map.df <- merge(states, joined_data, all.x = T)
 ```
 
 # PART VI
@@ -167,6 +184,9 @@ map.df <- merge()
 
 # PART VII
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
+```{r}
+
+```
 
 # PART VIII
 #8.	Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) and other types of Ale (any beer with “Ale” in its name other than IPA).  You decide to use KNN classification to investigate this relationship.  Provide statistical evidence one way or the other. You can of course assume your audience is comfortable with percentages … KNN is very easy to understand conceptually. 
