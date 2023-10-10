@@ -128,37 +128,74 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 # 4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 
 ```{r}
-median_abv_by_state <- BEER_AND_BREWERIES %>%
+median_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
-  filter(!is.na(ABV) & !is.na(IBU))
+  filter(!is.na(ABV) & !is.na(IBU)) %>%
   summarize(median_ABV = median(ABV), median_IBU = median(IBU))
-median_abv_by_state
+median_by_state
 
-total_states <- count(median_abv_by_state)
+total_states <- count(median_by_state)
 
-median_abv_by_state %>%
-  ggplot(aes(State, median_ABV)) + 
+barplot_median_abv <- median_by_state %>%
+  ggplot(aes(State, median_ABV, color = median_ABV, fill = median_ABV)) + 
   geom_bar(stat = "identity") +
   ggtitle(paste("Barplot of Median Alcohol by Volume (% ABV) by State (US), n = ", total_states)) +
   xlab("State") + ylab("Median ABV (%)") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot_median_abv
 
-boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
+barplot_median_ibu <- median_by_state %>%
+  ggplot(aes(State, median_IBU, color = median_IBU, fill = median_IBU)) +
+  geom_bar(stat = "identity") + 
+  ggtitle(paste("Barplot of Median Internation Bitterness Unit (IBU) by State (US), n = ", total_states)) +
+  xlab("State") + ylab("Median IBU") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+barplot_median_ibu
 
 ```
 # PART V
 #5.	Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 ```{r}
+
+# group filter and summarize max abv and ibu values
+max_by_state <- BEER_AND_BREWERIES %>%
+  group_by(State) %>%
+  filter(!is.na(ABV) & !is.na(IBU)) %>%
+  summarize(max_ABV = max(ABV), max_IBU = max(IBU))
+max_by_state  
+
+barplot_max_abv <- max_by_state %>%
+  ggplot(aes(State, max_ABV, color = max_ABV, fill = max_ABV)) +
+  geom_bar(stat = "identity") + 
+  ggtitle(paste("Barplot of Maximum Alcohol by Volume (% ABV) by State (US), n = ", total_states)) +
+  xlab("State") + ylab("Max ABV (%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot_max_abv
+
+barplot_max_ibu <- max_by_state %>%
+  ggplot(aes(State, max_IBU, color = max_IBU, fill = max_IBU)) +
+  geom_bar(stat = "identity") + 
+  ggtitle(paste("Barplot of Maximum Internation Bitterness Unit (IBU) by State (US), n = ", total_states)) +
+  xlab("State") + ylab("Maximum IBU") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot_max_ibu
+
+# store max abv and ibu index
+max_abv <- which.max(max_by_state$max_ABV)
+max_ibu <- which.max(max_by_state$max_IBU)
+
+# find max abv and ibu state by index
+max_abv_state <- max_by_state$State[max_abv]
+max_ibu_state <- max_by_state$State[max_ibu]
+
+# console output max abv and ibu
+max_abv_state
+max_ibu_state
+
 library(maps)
 library(mapproj)
-
-max_abv_by_state <- BEER_AND_BREWERIES %>%
-  group_by(State) %>%
-
-max_ibu_by_state <- BEER_AND_BREWERIES %>%
-  group_by(State) %>%
-  
-
+# plot map data for Count, ABV, IBU
 mapData <- count(BEER_AND_BREWERIES, State)
 colnames(mapData)[2] = "Total_Breweries"
 str(mapData)
@@ -179,12 +216,38 @@ map.df <- merge(states, joined_data, all.x = T)
 # 6.	Comment on the summary statistics and distribution of the ABV variable.
 ```{r}
 
-  
+# Comments:
+
+total_beers <- count(BEER_AND_BREWERIES)
+hist_abv <- BEER_AND_BREWERIES %>%
+  select(Beer, ABV, Style, Ounces, Brewery) %>%
+  filter(!is.na(ABV)) %>%
+  ggplot(aes(ABV)) + geom_histogram() +
+  ggtitle(paste("Histogram of Alcohol by Volume (% ABV), n = ", total_beers)) +
+  xlab("ABV") + ylab("Frequency")
+hist_abv
+
+hist_ibu <- BEER_AND_BREWERIES %>%
+  select(Beer, IBU, Style, Ounces, Brewery) %>%
+  filter(!is.na(IBU)) %>%
+  ggplot(aes(IBU)) + geom_histogram(stat = "bin", bins = 50) +
+  ggtitle(paste("Histogram of International Bitterness Units (IBU), n = ", total_beers)) +
+  xlab("IBU") + ylab("Frequency")
+hist_ibu
+
+# box plot of ABV by Beer Style
+boxplot(BEERS$ABV~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of Alcohol by Volume by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "ABV(%)")
+# box plot of IBU by Beer Style
+boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("Boxplot of International Bitterness Units (IBU) by Style, n = ", length(BEERS$Style)), xlab = "Beer Style", ylab = "IBU")
+
 ```
 
 # PART VII
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
 ```{r}
+
+library(GGally)
+
 
 ```
 
