@@ -169,6 +169,7 @@ max_by_state <- BEER_AND_BREWERIES %>%
   summarize(max_ABV = max(ABV), max_IBU = max(IBU))
 max_by_state  
 
+# bar plot max ABV 
 barplot_max_abv <- max_by_state %>%
   ggplot(aes(State, max_ABV, color = max_ABV, fill = max_ABV)) +
   geom_bar(stat = "identity") + 
@@ -177,6 +178,7 @@ barplot_max_abv <- max_by_state %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_max_abv
 
+# bar plot max IBU
 barplot_max_ibu <- max_by_state %>%
   ggplot(aes(State, max_IBU, color = max_IBU, fill = max_IBU)) +
   geom_bar(stat = "identity") + 
@@ -197,22 +199,28 @@ max_ibu_state <- max_by_state$State[max_ibu]
 max_abv_state
 max_ibu_state
 
+# import map libraries
 library(maps)
 library(mapproj)
-# plot map data for Count, ABV, IBU
+
+# store map data for Count, ABV, IBU
 mapData <- count(BEER_AND_BREWERIES, State)
 colnames(mapData)[2] = "Total_Breweries"
 str(mapData)
 
+# store state in lookup dataframe
 lookup = data.frame(abb = state.abb, State = state.name) #makes a data frame with State name and abbreviation. 
 colnames(lookup)[1] = "State"
 colnames(lookup)[2] = "Name"
 str(lookup)
 
+# full join map data with lookup
 joined_data <- full_join(mapData, lookup, by = "State")
 
+# create state map data frame
 states <- map_data("state")
 
+# merge joined data with states
 map.df <- merge(states, joined_data, all.x = T)
 ```
 
