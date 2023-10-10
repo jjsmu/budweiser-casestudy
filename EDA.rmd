@@ -128,14 +128,18 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 # 4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 
 ```{r}
+
+# filter and summarize ABV by state
 median_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
   filter(!is.na(ABV) & !is.na(IBU)) %>%
   summarize(median_ABV = median(ABV), median_IBU = median(IBU))
 median_by_state
 
+# store sample size
 total_states <- count(median_by_state)
 
+# bar plot median ABV
 barplot_median_abv <- median_by_state %>%
   ggplot(aes(State, median_ABV, color = median_ABV, fill = median_ABV)) + 
   geom_bar(stat = "identity") +
@@ -144,13 +148,13 @@ barplot_median_abv <- median_by_state %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_median_abv
 
+# bar plot median IBU
 barplot_median_ibu <- median_by_state %>%
   ggplot(aes(State, median_IBU, color = median_IBU, fill = median_IBU)) +
   geom_bar(stat = "identity") + 
   ggtitle(paste("Barplot of Median Internation Bitterness Unit (IBU) by State (US), n = ", total_states)) +
   xlab("State") + ylab("Median IBU") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 barplot_median_ibu
 
 ```
