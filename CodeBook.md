@@ -9,6 +9,10 @@ Also saved in this repository as of October 9, 2023:
 [Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv)&
 [Breweries](https://github.com/jjsmu/group16/blob/main/Breweries.csv)
 
+*Note: the Key variable that connects the data sets is Brewery\_id in
+Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables to
+have matching column names in order to merge.*
+
 Data Dictionary for Beer:
 
 <table>
@@ -131,10 +135,6 @@ Data Dictionary for Brewery:
 </tr>
 </tbody>
 </table>
-
-Note: the Key variable that connects the data sets is Brewery\_id in
-Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables to
-have matching column names in order to merge.
 
 ------------------------------------------------------------------------
 
