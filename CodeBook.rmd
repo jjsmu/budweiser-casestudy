@@ -27,7 +27,7 @@ Data Dictionary for Brewery:
 |State      |U.S. state (abbreviation) where brewery is located|String|empty cells    |MN,MI, CO |
 
 
-Note: the Key variable that connects the data sets is Brewery_id in Beer.csv and  Brew_ID in Brewery.csv. Will need to rename varibles to have matching column names in order to merge. 
+Note: the Key variable that connects the data sets is Brewery_id in Beer.csv and  Brew_ID in Brewery.csv. Will need to rename variables to have matching column names in order to merge. 
 
 
 
