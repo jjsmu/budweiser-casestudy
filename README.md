@@ -1,3 +1,10 @@
-# group16
+#Presentation for the CEO and CFO of Budweiser (group1-6)
 
-Purpose
+
+add links for: 
+Recorded Presentation
+Slides
+Codebook & Data
+Code & Explanation 
+
+
