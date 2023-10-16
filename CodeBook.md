@@ -1,13 +1,3 @@
----
-title: "Codebook"
-output: md_document
-date: "2023-10-16"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Codebook For Budweiser Case study
 
 Data sets obtained from Client:
@@ -21,27 +11,129 @@ Also saved in this repository as of October 9, 2023:
 
 Data Dictionary for Beer:
 
-| Variable   | Label                                       | Data Type | Missing Data Code | Example Values                                          |
-|---------------|---------------|---------------|---------------|---------------|
-| Name       | Name of Beer                                | String    | empty cells       | Blood Orange Gose, Summer Solstice Cerveza Crema (2009) |
-| Beer_ID    | unique identifier for beer                  | Integer   | empty cells       | 35,767,1712                                             |
-| ABV        | Indicated alcohol by volume (percentage)    | Decimal   | empty cells       | 0.09,0.125                                              |
-| IBU        | International Bitterness Units (percentage) | Integer   | empty cells       | 92,17,4                                                 |
-| Brewery_id | unique identifier for brewery               | Integer   | empty cells       | 409,2,73                                                |
-| Style      | Style of beer                               | Nominal   | empty cells       | 409,2,73                                                |
-| Ounces     | amount of beer in indivisual can/bottle     | Integer   | empty cells       | 12,8.4,16                                               |
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Label</th>
+<th>Data Type</th>
+<th>Missing Data Code</th>
+<th>Example Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Name</td>
+<td>Name of Beer</td>
+<td>String</td>
+<td>empty cells</td>
+<td>Blood Orange Gose, Summer Solstice Cerveza Crema (2009)</td>
+</tr>
+<tr class="even">
+<td>Beer_ID</td>
+<td>unique identifier for beer</td>
+<td>Integer</td>
+<td>empty cells</td>
+<td>35,767,1712</td>
+</tr>
+<tr class="odd">
+<td>ABV</td>
+<td>Indicated alcohol by volume (percentage)</td>
+<td>Decimal</td>
+<td>empty cells</td>
+<td>0.09,0.125</td>
+</tr>
+<tr class="even">
+<td>IBU</td>
+<td>International Bitterness Units (percentage)</td>
+<td>Integer</td>
+<td>empty cells</td>
+<td>92,17,4</td>
+</tr>
+<tr class="odd">
+<td>Brewery_id</td>
+<td>unique identifier for brewery</td>
+<td>Integer</td>
+<td>empty cells</td>
+<td>409,2,73</td>
+</tr>
+<tr class="even">
+<td>Style</td>
+<td>Style of beer</td>
+<td>Nominal</td>
+<td>empty cells</td>
+<td>409,2,73</td>
+</tr>
+<tr class="odd">
+<td>Ounces</td>
+<td>amount of beer in indivisual can/bottle</td>
+<td>Integer</td>
+<td>empty cells</td>
+<td>12,8.4,16</td>
+</tr>
+</tbody>
+</table>
 
 Data Dictionary for Brewery:
 
-| Variable | Label                                              | Data Type | Missing Data Code | Example Values                           |
-|---------------|---------------|---------------|---------------|---------------|
-| Brew_ID  | unique identifier for brewery                      | Integer   | empty cells       | 1,20,558                                 |
-| Name     | Name of Brewery                                    | String    | empty cells       | NorthGate Brewing, Avery Brewing Company |
-| City     | City where brewery is located                      | String    | empty cells       | Seven Points, Portland                   |
-| State    | U.S. state (abbreviation) where brewery is located | String    | empty cells       | MN,MI, CO                                |
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Label</th>
+<th>Data Type</th>
+<th>Missing Data Code</th>
+<th>Example Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Brew_ID</td>
+<td>unique identifier for brewery</td>
+<td>Integer</td>
+<td>empty cells</td>
+<td>1,20,558</td>
+</tr>
+<tr class="even">
+<td>Name</td>
+<td>Name of Brewery</td>
+<td>String</td>
+<td>empty cells</td>
+<td>NorthGate Brewing, Avery Brewing Company</td>
+</tr>
+<tr class="odd">
+<td>City</td>
+<td>City where brewery is located</td>
+<td>String</td>
+<td>empty cells</td>
+<td>Seven Points, Portland</td>
+</tr>
+<tr class="even">
+<td>State</td>
+<td>U.S. state (abbreviation) where brewery is located</td>
+<td>String</td>
+<td>empty cells</td>
+<td>MN,MI, CO</td>
+</tr>
+</tbody>
+</table>
 
-Note: the Key variable that connects the data sets is Brewery_id in
-Beer.csv and Brew_ID in Brewery.csv. Will need to rename variables to
+Note: the Key variable that connects the data sets is Brewery\_id in
+Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables to
 have matching column names in order to merge.
 
 ------------------------------------------------------------------------
@@ -84,14 +176,14 @@ response. Variable Label: Indicates an abbreviated variable description
 (maximum of 40 characters) that can be used to identify the variable. In
 some cases, an expanded version of the Variable Name can be found in a
 Variable Description List. Missing Data Code: Indicates the values and
-labels of missing data. If "9" is a missing value, then the codebook
-could note "9 = Missing Data." Other examples of missing data labels
-include "Refused," "Don't Know," "Blank (No Answer)," and "Legitimate
-Skip." Some analysis software requires that certain types of data be
-excluded from analysis and designated as "Missing Data," (i.e.,
+labels of missing data. If “9” is a missing value, then the codebook
+could note “9 = Missing Data.” Other examples of missing data labels
+include “Refused,” “Don’t Know,” “Blank (No Answer),” and “Legitimate
+Skip.” Some analysis software requires that certain types of data be
+excluded from analysis and designated as “Missing Data,” (i.e.,
 inappropriate, not ascertained, not ascertainable, or ambiguous data
-categories). Users can use these "Missing Data" codes as needed. Code
+categories). Users can use these “Missing Data” codes as needed. Code
 Value: Indicates the code values occurring in the data for a variable.
 Value Label: Indicates the textual definitions of the codes.
-Abbreviations commonly used in the code definitions are "DK" ("Don't
-Know"), "NA" ("Not Ascertained"), and "INAP" ("Inapplicable").
+Abbreviations commonly used in the code definitions are “DK” (“Don’t
+Know”), “NA” (“Not Ascertained”), and “INAP” (“Inapplicable”).
