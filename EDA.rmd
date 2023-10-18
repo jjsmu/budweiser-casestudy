@@ -63,8 +63,10 @@ breweries_by_state <- BREWERIES %>%
   arrange (desc(Count))
 View(breweries_by_state)
 
-# total number of breweries in US
+# total number of breweries in US unfiltered
 total_breweries <- sum(breweries_by_state$Count)
+# total number of beers in US unfiltered
+total_beers <- count(BEERS)
 
 # ggplot2 bar plot of breweries by state
 barplot_of_breweries_by_state <- BREWERIES %>%
@@ -75,12 +77,11 @@ barplot_of_breweries_by_state <- BREWERIES %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_of_breweries_by_state
 
-box_plot_breweries_by_state 
-
+# TODO histogram of popular sizes by style
 #hist(BEERS$Ounces, main = paste("Histogram of Beers by Volume (Ounce), n = ", length(table(beerOunceAsFactor))), xlab = "Volume (oz.)", ylab = "Frequency", col = "lightblue", border = "black")
 
-#plot(BEERS$Beer_ID, BEERS$ABV, pch = 15, xlab = "Beer_ID", ylab = "ABV(%)", main = paste("Beer_ID v. ABV, n = ", length(BEERS$Beer_ID)))
-
+plot(BEERS$IBU, BEERS$ABV, pch = 3, xlab = "IBU", ylab = "ABV(%)", main = paste("Scatter Plot of International Bitterness Unit v. Alcohol by Content, n = ", total_beers))
+  
 ```
 # PART II
 # 2. 	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
@@ -113,8 +114,9 @@ sum(is.na(BEERS$ABV)) # missing 62 values
 sum(is.na(BEERS$IBU)) # missing 1005 values
 sum(is.na(BEER_AND_BREWERIES)) # missing 1067 values
 
-# find the missing NA value indexes
-grep()
+# TODO find the missing NA value indexes
+missing_index <- which(grepl(NA, BEER_AND_BREWERIES))
+missing_index
 
 # test the function complete.cases() on gg_miss_var
 gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
@@ -187,9 +189,17 @@ barplot_max_ibu <- max_by_state %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_max_ibu
 
+# console output max abv and ibu values
+max(max_by_state$max_ABV)
+max(max_by_state$max_IBU)
+
 # store max abv and ibu index
 max_abv <- which.max(max_by_state$max_ABV)
 max_ibu <- which.max(max_by_state$max_IBU)
+
+# console output max abv and ibu pointers
+max_abv
+max_ibu
 
 # find max abv and ibu state by index
 max_abv_state <- max_by_state$State[max_abv]
@@ -203,25 +213,36 @@ max_ibu_state
 library(maps)
 library(mapproj)
 
-# store map data for Count, ABV, IBU
-mapData <- count(BEER_AND_BREWERIES, State)
-colnames(mapData)[2] = "Total_Breweries"
-str(mapData)
+# merge max and med abv and ibu
+max_med_abv_ibu <- merge(max_by_state, median_by_state, by = "State")
+max_med_abv_ibu
+
+# merge brewery count with max and med abv and ibu
+breweries_heat_map_data <- merge(max_med_abv_ibu, breweries_by_state, by = "State")
+colnames(breweries_heat_map_data)[1] = "abb"
+breweries_heat_map_data
 
 # store state in lookup dataframe
 lookup = data.frame(abb = state.abb, State = state.name) #makes a data frame with State name and abbreviation. 
-colnames(lookup)[1] = "State"
-colnames(lookup)[2] = "Name"
-str(lookup)
+lookup
+lookup$abb <- toupper(lookup$abb)
+colnames(lookup)[2] = "region"
+lookup$region <- tolower(lookup$region)
+lookup
 
-# full join map data with lookup
-joined_data <- full_join(mapData, lookup, by = "State")
+# merge breweries and lookup by state name
+merged_map_data <- merge(breweries_heat_map_data, lookup, by = "abb")
+merged_map_data
 
 # create state map data frame
-states <- map_data("state")
+us_states <- map_data("state")
+us_states
 
 # merge joined data with states
-map.df <- merge(states, joined_data, all.x = T)
+map.df <- merge(us_states, breweries_heat_map_data, by = "region", all.x = T)
+
+# string_r, which, grepl
+# TODO search for keywords 'Ale', 'Pilsner', 'Stout'
 ```
 
 # PART VI
@@ -229,12 +250,18 @@ map.df <- merge(states, joined_data, all.x = T)
 ```{r}
 
 # Comments:
+summary(BEER_AND_BREWERIES)
+
+plot_breweries <- BEER_AND_BREWERIES %>%
+  ggplot(aes(ABV, IBU)) + geom_point() %>%
+  ggtitle(paste("Scatter Plot of Alcohol by Content v. International Bitterness Units, n = ", total_beers )) + xlab("ABV") + ylab("IBU")
+plot_breweries
 
 total_beers <- count(BEER_AND_BREWERIES)
 hist_abv <- BEER_AND_BREWERIES %>%
   select(Beer, ABV, Style, Ounces, Brewery) %>%
   filter(!is.na(ABV)) %>%
-  ggplot(aes(ABV)) + geom_histogram() +
+  ggplot(aes(ABV)) + geom_histogram(bins = 30, color = "red", fill = "pink") +
   ggtitle(paste("Histogram of Alcohol by Volume (% ABV), n = ", total_beers)) +
   xlab("ABV") + ylab("Frequency")
 hist_abv
@@ -258,8 +285,6 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
 ```{r}
 
-library(GGally)
-
 
 ```
 
@@ -269,6 +294,57 @@ library(GGally)
 
 ```{r}
 #install package and load library
+
+library(GGally)
+# ggpair wise plot of ABV and IBU by ounces
+ggpairs_beers_breweries <- BEER_AND_BREWERIES %>%
+  select(Style, ABV, IBU) %>%
+  filter(!is.na(ABV) & !is.na(IBU)) %>%
+  mutate(ouncesAsFactor = as.factor(Ounces)) %>%
+  ggpairs(aes(color = Class))
+ggpairs_beers_breweries
+
+# TODO investigate abv by ounces
+
+# filter ale and ipa beers
+ale_abv_ibu <- BEER_AND_BREWERIES %>%
+  select(Ounces, Style, ABV, IBU) %>%
+  filter(!is.na(ABV) & !is.na(IBU) & grepl("Ale", Style)) # without NA
+  #filter(grepl("Ale", Style))
+ale_abv_ibu$Class <- "Ale"
+ale_abv_ibu
+
+ipa_abv_ibu <- BEER_AND_BREWERIES %>%
+  select(Ounces, Style, ABV, IBU) %>%
+  filter(!is.na(ABV) & !is.na(IBU) & grepl("IPA", Style)) # without NA
+  #filter(grepl("IPA", Style))
+ipa_abv_ibu$Class <- "IPA"
+ipa_abv_ibu
+
+ale_and_ipa <- rbind(ipa_abv_ibu, ale_abv_ibu)
+ale_and_ipa
+
+# plots
+hist_ale <- ale_abv_ibu %>%
+  ggplot(aes(ABV, IBU, color = Ounces)) + geom_point(position = "jitter", size = 2) +
+  ggtitle(paste("Histogram of Ale International Bitterness Unit (IBU) v.  Alcohol by Volume (% ABV), n = ", count(ale_abv_ibu))) + ylab("ABV (%)") + xlab("IBU")
+hist_ale
+
+hist_ipa <- ipa_abv_ibu %>% 
+  ggplot(aes(IBU, ABV, color = Ounces)) + geom_point(position = "jitter", size = 2) + 
+  ggtitle(paste("Histogram of IPA International Bitterness Unit (IBU) v.  Alcohol by Volume (% ABV), n = ", count(ale_abv_ibu))) + ylab("ABV (%)") + xlab("IBU")
+hist_ipa
+
+# group by ale and ipa
+ggpairs_ale_ipa_abv_ibu <- ale_and_ipa %>%
+  select(Ounces, ABV, IBU, Class) %>% 
+  mutate(ouncesAsFactor = as.factor(Ounces)) %>%
+  group_by(Class) %>%
+  ggpairs(aes(color = ouncesAsFactor))
+ggpairs_ale_ipa_abv_ibu
+
+# TODO mutate new column IPA or Ale group by style
+
 install.packages("class")
 install.packages("caret")
 install.packages("e1071")
@@ -276,6 +352,22 @@ library(class)
 library(caret)
 library(e1071)
 
+# KNN 
+train <- ale_and_ipa
+test <- data.frame(ABV = 0.08, IBU = 60)
+classification = knn(train[,3:4], test, train$Class, k = 5, prob = TRUE)
+matrix = confusionMatrix(table(classification, test$Class))
+
+# KNN cross validation
+
+count(ale_and_ipa) # 951 samples total
+# set up train and test set
+trainIndex <- sample(seq(1, count(ale_and_ipa), 666))
+trainBeers <- ale_and_ipa[trainIndex,]
+testBeers <- ale_and_ipa[-trainIndex,]
+
+# plot train set
+trainBeers %>%
 
 ```
 
