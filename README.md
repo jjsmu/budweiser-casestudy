@@ -4,9 +4,12 @@
 - add links for: 
 - Recorded Presentation
 - Slides
-- Codebook & Data
 - Code & Explanation 
 
+
+
+
+*DELETE BEFORE SUBMISSION: Codebook: The code book is an explanation of concepts or definitions needed to know to understand the data and reproduce the analysis. This could include the machine and operating system the project was run on, a data dictionary of the data, any transformations or feature creation performed with the data, merging details, or any other pieces of general information that someone should know about the environment and data. For this project thecodebook should be a Word doc or pdf or could be the ReadMe file in your GitHub repo.(
 
 # Codebook For Budweiser Case study
 
