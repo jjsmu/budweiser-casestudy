@@ -236,7 +236,7 @@ us_states <- map_data("state")
 us_states$subregion <- NULL
 us_states
 
-# found the bug, blank space, use trimws
+# Found the bug! Blank space prevents merging, use trimws function
 unique(breweries_map_data$State)
 unique(lookup$State)
 
@@ -246,7 +246,7 @@ breweries_lookup
 
 # merge breweries lookup and us states by region
 map.df <- merge(breweries_lookup, us_states, by = "region", all.x = T)
-map.df <- map.df[order(map.df$order),] # arrange order desc
+map.df <- map.df[order(map.df$order),] # arrange order desc, fix polygon clipping
 map.df
 
 # plot the map data
@@ -325,7 +325,15 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
 ```{r}
 
+# scatter plot of IBU v. ABV
+ggplot(data = BEER_AND_BREWERIES) +
+  geom_point(mapping = aes(IBU, ABV, color = State)) +
+  geom_smooth(mapping = aes(IBU, ABV, linetype = as.factor(Ounces))) +
+  ggtitle(paste("Scatter plot Alcohol by Volume (% ABV) v. International Bitterness Unit (IBU) by Ounce (oz.), n = ", total_beers))+
+  xlab("ABV (%)") + ylab("IBU") +
+  facet_wrap(~Ounces)
 
+gg
 ```
 
 # PART VIII
@@ -333,20 +341,7 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 #In addition, while you have decided to use KNN to investigate this relationship (KNN is required) you may also feel free to supplement your response to this question with any other methods or techniques you have learned.  Creativity and alternative solutions are always encouraged.  
 
 ```{r}
-#install package and load library
-
-library(GGally)
-# ggpair wise plot of ABV and IBU by ounces
-ggpairs_beers_breweries <- BEER_AND_BREWERIES %>%
-  select(Style, ABV, IBU) %>%
-  filter(!is.na(ABV) & !is.na(IBU)) %>%
-  mutate(ouncesAsFactor = as.factor(Ounces)) %>%
-  ggpairs(aes(color = Class))
-ggpairs_beers_breweries
-
-# TODO investigate abv by ounces
-
-# filter ale and ipa beers
+# filter for non null ale beers
 ale_abv_ibu <- BEER_AND_BREWERIES %>%
   select(Ounces, Style, ABV, IBU) %>%
   filter(!is.na(ABV) & !is.na(IBU) & grepl("Ale", Style)) # without NA
@@ -354,6 +349,7 @@ ale_abv_ibu <- BEER_AND_BREWERIES %>%
 ale_abv_ibu$Class <- "Ale"
 ale_abv_ibu
 
+# filter for non null IPA beers
 ipa_abv_ibu <- BEER_AND_BREWERIES %>%
   select(Ounces, Style, ABV, IBU) %>%
   filter(!is.na(ABV) & !is.na(IBU) & grepl("IPA", Style)) # without NA
@@ -361,19 +357,12 @@ ipa_abv_ibu <- BEER_AND_BREWERIES %>%
 ipa_abv_ibu$Class <- "IPA"
 ipa_abv_ibu
 
+# combine ale and ipa list
 ale_and_ipa <- rbind(ipa_abv_ibu, ale_abv_ibu)
 ale_and_ipa
 
-# plots
-hist_ale <- ale_abv_ibu %>%
-  ggplot(aes(ABV, IBU, color = Ounces)) + geom_point(position = "jitter", size = 2) +
-  ggtitle(paste("Histogram of Ale International Bitterness Unit (IBU) v.  Alcohol by Volume (% ABV), n = ", count(ale_abv_ibu))) + ylab("ABV (%)") + xlab("IBU")
-hist_ale
-
-hist_ipa <- ipa_abv_ibu %>% 
-  ggplot(aes(IBU, ABV, color = Ounces)) + geom_point(position = "jitter", size = 2) + 
-  ggtitle(paste("Histogram of IPA International Bitterness Unit (IBU) v.  Alcohol by Volume (% ABV), n = ", count(ale_abv_ibu))) + ylab("ABV (%)") + xlab("IBU")
-hist_ipa
+#install package and load library
+library(GGally)
 
 # group by ale and ipa
 ggpairs_ale_ipa_abv_ibu <- ale_and_ipa %>%
@@ -416,6 +405,19 @@ trainBeers %>%
 
 ```{r}
 # use of themes and advanced plots
-# eda 1: number of breweries v. median ibu
+hist_abv <- BEER_AND_BREWERIES %>%
+  ggplot(aes(ABV, na.rm = TRUE)) + geom_histogram()
+hist_abv
+#TODO bar plot stack breweries by state
+#TODO bar plot stack ounces by state
+#TODO bar plot stack "Class" by state
+
+#TODO ggplotly
+#install.packages(ggthemes)
+#install.packages(ggplotly)
+library(ggthemes)
+library(ggplotly)
+
+#eda 1: number of breweries v. median ibu
 ```
 
