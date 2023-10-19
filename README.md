@@ -9,25 +9,23 @@
 
 
 
-*DELETE BEFORE SUBMISSION: Codebook: The code book is an explanation of concepts or definitions needed to know to understand the data and reproduce the analysis. This could include the machine and operating system the project was run on, a data dictionary of the data, any transformations or feature creation performed with the data, merging details, or any other pieces of general information that someone should know about the environment and data. For this project thecodebook should be a Word doc or pdf or could be the ReadMe file in your GitHub repo.(
+*DELETE BEFORE SUBMISSION: Codebook: The code book is an explanation of concepts or definitions needed to know to understand the data and reproduce the analysis. This could include the machine and operating system the project was run on, a data dictionary of the data, any transformations or feature creation performed with the data, merging details, or any other pieces of general information that someone should know about the environment and data. For this project thecodebook should be a Word doc or pdf or could be the ReadMe file in your GitHub repo.*
 
 # Codebook For Budweiser Case study
 
 Data sets obtained from Client:
-[Beers](https://github.com/BivinSadler/MSDS_6306_Doing-Data-Science/blob/Master/Unit%208%20and%209%20Case%20Study%201/Beers.csv)
-&
+[Beers](https://github.com/BivinSadler/MSDS_6306_Doing-Data-Science/blob/Master/Unit%208%20and%209%20Case%20Study%201/Beers.csv) 
+& 
 [Breweries](https://github.com/BivinSadler/MSDS_6306_Doing-Data-Science/blob/Master/Unit%208%20and%209%20Case%20Study%201/Breweries.csv)
 
 Also saved in this repository as of October 9, 2023:
-[Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv)&
+[Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv) & 
 [Breweries](https://github.com/jjsmu/group16/blob/main/Breweries.csv)
 
 
 **Notes:** 
 
--The Key variable that connects the data sets is Brewery_id in
-Beer.csv and Brew_ID in Brewery.csv. We renamed variables to
-have matching column names in order to merge.
+-The Key variable that connects the data sets is Brewery_id in Beer.csv and Brew_ID in Brewery.csv. We renamed variables to have matching column names in order to merge.
 
 -We assumed data was missing at random, and removed those observations with missing values.
 
