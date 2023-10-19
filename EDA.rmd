@@ -246,6 +246,7 @@ breweries_lookup
 
 # merge breweries lookup and us states by region
 map.df <- merge(breweries_lookup, us_states, by = "region", all.x = T)
+map.df <- map.df[order(map.df$order),] # arrange order desc
 map.df
 
 # plot the map data
