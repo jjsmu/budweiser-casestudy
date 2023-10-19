@@ -67,6 +67,11 @@ View(breweries_by_state)
 total_breweries <- sum(breweries_by_state$Count)
 # total number of beers in US unfiltered
 total_beers <- count(BEERS)
+na_abv <- sum(is.na(BEERS$ABV))
+na_abv
+which(is.na(BEERS$ABV))
+na_ibu <- sum(is.na(BEERS$IBU))
+na_ibu
 
 # ggplot2 bar plot of breweries by state
 barplot_of_breweries_by_state <- BREWERIES %>%
@@ -293,8 +298,8 @@ med_ibu_heat_map
 summary(BEER_AND_BREWERIES)
 
 plot_breweries <- BEER_AND_BREWERIES %>%
-  ggplot(aes(ABV, IBU)) + geom_point() %>%
-  ggtitle(paste("Scatter Plot of Alcohol by Content v. International Bitterness Units, n = ", total_beers )) + xlab("ABV") + ylab("IBU")
+  ggplot(aes(ABV, IBU, color = Ounces)) + geom_point(na.rm = TRUE, position = "jitter") +
+  ggtitle(paste("Scatter Plot of Alcohol by Content (% ABV) v. International Bitterness Units (IBU) by State (US), n = ", total_beers)) + xlab("ABV") + ylab("IBU")
 plot_breweries
 
 total_beers <- count(BEER_AND_BREWERIES)
@@ -327,13 +332,12 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 
 # scatter plot of IBU v. ABV
 ggplot(data = BEER_AND_BREWERIES) +
+  geom_text(aes(IBU, ABV, label = State)) +
   geom_point(mapping = aes(IBU, ABV, color = State)) +
   geom_smooth(mapping = aes(IBU, ABV, linetype = as.factor(Ounces))) +
   ggtitle(paste("Scatter plot Alcohol by Volume (% ABV) v. International Bitterness Unit (IBU) by Ounce (oz.), n = ", total_beers))+
-  xlab("ABV (%)") + ylab("IBU") +
+  xlab("ABV (%)") + ylab("IBU") + 
   facet_wrap(~Ounces)
-
-gg
 ```
 
 # PART VIII
@@ -341,39 +345,44 @@ gg
 #In addition, while you have decided to use KNN to investigate this relationship (KNN is required) you may also feel free to supplement your response to this question with any other methods or techniques you have learned.  Creativity and alternative solutions are always encouraged.  
 
 ```{r}
-# filter for non null ale beers
+# filter by ale
 ale_abv_ibu <- BEER_AND_BREWERIES %>%
   select(Ounces, Style, ABV, IBU) %>%
-  filter(!is.na(ABV) & !is.na(IBU) & grepl("Ale", Style)) # without NA
-  #filter(grepl("Ale", Style))
+  filter(grepl("Ale", Style))
 ale_abv_ibu$Class <- "Ale"
+dim(ale_abv_ibu)
 ale_abv_ibu
 
-# filter for non null IPA beers
+# filter by ipa
 ipa_abv_ibu <- BEER_AND_BREWERIES %>%
   select(Ounces, Style, ABV, IBU) %>%
-  filter(!is.na(ABV) & !is.na(IBU) & grepl("IPA", Style)) # without NA
-  #filter(grepl("IPA", Style))
+  filter(grepl("IPA", Style))
 ipa_abv_ibu$Class <- "IPA"
-ipa_abv_ibu
 
 # combine ale and ipa list
 ale_and_ipa <- rbind(ipa_abv_ibu, ale_abv_ibu)
-ale_and_ipa
+```
 
+```{r}
 #install package and load library
 library(GGally)
 
-# group by ale and ipa
-ggpairs_ale_ipa_abv_ibu <- ale_and_ipa %>%
-  select(Ounces, ABV, IBU, Class) %>% 
-  mutate(ouncesAsFactor = as.factor(Ounces)) %>%
-  group_by(Class) %>%
-  ggpairs(aes(color = ouncesAsFactor))
-ggpairs_ale_ipa_abv_ibu
+# plot ggpairs by class ipa v. ale
+ggpairs_ale_ipa_abv_ibu_by_class <- ale_and_ipa %>%
+  select(ABV, IBU, Class) %>% 
+  ggpairs(aes(color = Class))
+ggpairs_ale_ipa_abv_ibu_by_class
+# suppress warning: standard deviation is zero - ABV, IBU NA values
 
-# TODO mutate new column IPA or Ale group by style
-
+# plot ggpairs by ounce ipa v. ale
+ggpairs_ale_ipa_abv_ibu_by_ounces <- ale_and_ipa %>%
+  select(ABV, IBU, Ounces) %>% 
+  ggpairs(aes(na.rm = TRUE, color = as.factor(Ounces)))
+ggpairs_ale_ipa_abv_ibu_by_ounces
+```
+## KNN Classification
+```{r}
+# install KNN libraries
 install.packages("class")
 install.packages("caret")
 install.packages("e1071")
@@ -381,22 +390,33 @@ library(class)
 library(caret)
 library(e1071)
 
-# KNN 
-train <- ale_and_ipa
-test <- data.frame(ABV = 0.08, IBU = 60)
-classification = knn(train[,3:4], test, train$Class, k = 5, prob = TRUE)
-matrix = confusionMatrix(table(classification, test$Class)) # TODO fix me
+# count total ale and ipa
+count(ale_and_ipa) # 1547 samples total, including NA
+ale_and_ipa <- na.omit(ale_and_ipa) # omit NA values
+count(ale_and_ipa) # omit NA, 951 remain
 
-# KNN cross validation
-
-count(ale_and_ipa) # 951 samples total
 # set up train and test set
-trainIndex <- sample(seq(1, count(ale_and_ipa), 666))
+trainIndex <- sample(seq(1, 951), 665)
 trainBeers <- ale_and_ipa[trainIndex,]
 testBeers <- ale_and_ipa[-trainIndex,]
 
 # plot train set
-trainBeers %>%
+trainBeers %>% ggplot(aes(ABV, IBU, color = Class)) + geom_point()
+
+# knn classification
+classification = knn(trainBeers[, c("ABV", "IBU")], testBeers[, c("ABV", "IBU")], trainBeers$Class, k = 5, prob = TRUE )
+classification
+table <- table(classification, testBeers$Class)
+table
+CM <- confusionMatrix(table(classification, testBeers$Class), mode = "everything")
+CM
+```
+## Internal LOOCV
+```{r}
+# k = 5, train test only
+loocv_classification <- knn.cv(trainBeers[, c("ABV", "IBU")], trainBeers$Class, k = 5)
+loocv_classification
+loocv_table <- table(trainBeers[, c("ABV", "IBU")], trainBeers$Class)
 
 ```
 
