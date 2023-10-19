@@ -27,7 +27,7 @@ Also saved in this repository as of October 9, 2023:
 
 -The Key variable that connects the data sets is Brewery_id in Beer.csv and Brew_ID in Brewery.csv. We renamed variables to have matching column names in order to merge.
 
--We assumed data was missing at random, and removed those observations with missing values.
+-We assumed data was missing at random, but kept those rows for completeness, and filereed out missing values when neccessary. This is detailed in the EDA. 
 
 -Refer to EDA.rmd file for code relating to merging, transformation and analysis. 
 
