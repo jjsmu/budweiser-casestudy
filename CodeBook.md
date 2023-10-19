@@ -9,11 +9,16 @@ Also saved in this repository as of October 9, 2023:
 [Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv)&
 [Breweries](https://github.com/jjsmu/group16/blob/main/Breweries.csv)
 
-**Notes:** -The Key variable that connects the data sets is Brewery\_id
-in Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables
-to have matching column names in order to merge. -We assumed data was
-missing at random, and removed those observations with missing values.
-Refer to EDA.rmd file for code relating to merging, transformation and
+**Notes:**
+
+-The Key variable that connects the data sets is Brewery\_id in Beer.csv
+and Brew\_ID in Brewery.csv. We renamed variables to have matching
+column names in order to merge.
+
+-We assumed data was missing at random, and removed those observations
+with missing values.
+
+-Refer to EDA.rmd file for code relating to merging, transformation and
 analysis.
 
 **Data Dictionary for Beer:**
