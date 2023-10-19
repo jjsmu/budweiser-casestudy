@@ -71,7 +71,7 @@ total_beers <- count(BEERS)
 # ggplot2 bar plot of breweries by state
 barplot_of_breweries_by_state <- BREWERIES %>%
   group_by(State) %>%
-  ggplot(aes(State)) + geom_bar(stat = "count") +
+  ggplot(aes(State, fill = State)) + geom_bar(stat = "count") +
   ggtitle(paste("Barplot of Breweries by State (US), n = ", total_breweries)) +
   xlab("State") + ylab("Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -115,7 +115,7 @@ sum(is.na(BEERS$IBU)) # missing 1005 values
 sum(is.na(BEER_AND_BREWERIES)) # missing 1067 values
 
 # TODO find the missing NA value indexes
-missing_index <- which(grepl(NA, BEER_AND_BREWERIES))
+missing_index <- which(grep(NA, BEER_AND_BREWERIES))
 missing_index
 
 # test the function complete.cases() on gg_miss_var
@@ -124,7 +124,7 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 # replace missing NA values with new value
 # BEERS <- BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ]
 
-# TODO Plot with/without missing NA values ABV, IBU, check for skewness
+# NOTE: South Dakota IBU is NA for all, missing IBU data
 ```
 # PART IV 
 # 4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
@@ -134,19 +134,20 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 # filter and summarize ABV by state
 median_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
-  filter(!is.na(ABV) & !is.na(IBU)) %>%
-  summarize(median_ABV = median(ABV), median_IBU = median(IBU))
+  #filter(!is.na(ABV) & !is.na(IBU)) %>%
+  summarize(median_ABV = median(ABV, na.rm = TRUE), median_IBU = median(IBU, na.rm = TRUE))
 median_by_state
 
 # store sample size
 total_states <- count(median_by_state)
+total_states
 
 # bar plot median ABV
 barplot_median_abv <- median_by_state %>%
   ggplot(aes(State, median_ABV, color = median_ABV, fill = median_ABV)) + 
   geom_bar(stat = "identity") +
   ggtitle(paste("Barplot of Median Alcohol by Volume (% ABV) by State (US), n = ", total_states)) +
-  xlab("State") + ylab("Median ABV (%)") +
+  xlab("State") + ylab("Median ABV (%)") + ylim(0, 0.15) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_median_abv
 
@@ -155,7 +156,7 @@ barplot_median_ibu <- median_by_state %>%
   ggplot(aes(State, median_IBU, color = median_IBU, fill = median_IBU)) +
   geom_bar(stat = "identity") + 
   ggtitle(paste("Barplot of Median Internation Bitterness Unit (IBU) by State (US), n = ", total_states)) +
-  xlab("State") + ylab("Median IBU") +
+  xlab("State(") + ylab("Median IBU") + ylim(0, 70) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 barplot_median_ibu
 
@@ -167,8 +168,8 @@ barplot_median_ibu
 # group filter and summarize max abv and ibu values
 max_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
-  filter(!is.na(ABV) & !is.na(IBU)) %>%
-  summarize(max_ABV = max(ABV), max_IBU = max(IBU))
+  #filter(!is.na(ABV) & !is.na(IBU)) %>%
+  summarize(max_ABV = max(ABV, na.rm = TRUE), max_IBU = max(IBU, na.rm = TRUE))
 max_by_state  
 
 # bar plot max ABV 
@@ -206,40 +207,78 @@ max_abv_state <- max_by_state$State[max_abv]
 max_ibu_state <- max_by_state$State[max_ibu]
 
 # console output max abv and ibu
-max_abv_state
-max_ibu_state
+max_abv_state # "CO"
+max_ibu_state # "OR"
 
 # import map libraries
 library(maps)
 library(mapproj)
 
 # merge max and med abv and ibu
-max_med_abv_ibu <- merge(max_by_state, median_by_state, by = "State")
+max_med_abv_ibu <- merge(max_by_state, median_by_state, by = "State", all = TRUE)
 max_med_abv_ibu
 
 # merge brewery count with max and med abv and ibu
-breweries_heat_map_data <- merge(max_med_abv_ibu, breweries_by_state, by = "State")
-colnames(breweries_heat_map_data)[1] = "abb"
-breweries_heat_map_data
+breweries_map_data <- merge(max_med_abv_ibu, breweries_by_state, by = "State")
+#colnames(breweries_map_data)[1] = "abb"
+breweries_map_data$State <- trimws(breweries_map_data$State)
+breweries_map_data
 
 # store state in lookup dataframe
-lookup = data.frame(abb = state.abb, State = state.name) #makes a data frame with State name and abbreviation. 
-lookup
-lookup$abb <- toupper(lookup$abb)
-colnames(lookup)[2] = "region"
+lookup = data.frame(State = state.abb, region = state.name) #makes a data frame with State name and abbreviation. 
+lookup <- bind_rows(lookup, data.frame(State = "DC", region = "Washington DC")) # Add missing row
+lookup <- lookup %>% arrange(lookup$State)
 lookup$region <- tolower(lookup$region)
 lookup
 
-# merge breweries and lookup by state name
-merged_map_data <- merge(breweries_heat_map_data, lookup, by = "abb")
-merged_map_data
-
 # create state map data frame
 us_states <- map_data("state")
+us_states$subregion <- NULL
 us_states
 
-# merge joined data with states
-map.df <- merge(us_states, breweries_heat_map_data, by = "region", all.x = T)
+# found the bug, blank space, use trimws
+unique(breweries_map_data$State)
+unique(lookup$State)
+
+# merge breweries and lookup data 
+breweries_lookup <- merge(breweries_map_data, lookup, by = "State")
+breweries_lookup
+
+# merge breweries lookup and us states by region
+map.df <- merge(breweries_lookup, us_states, by = "region", all.x = T)
+map.df
+
+# plot the map data
+breweries_heat_map <- map.df %>% ggplot(aes(x=long,y=lat,group=group))+
+  geom_polygon(aes(fill = Count))+
+  geom_path() + 
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+ggtitle(paste("Number of Breweries by State, n = ", total_breweries)) +
+coord_map()
+breweries_heat_map
+# max abv heat map
+max_abv_heat_map <- map.df %>% ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = max_ABV)) + geom_path() + scale_fill_gradientn(colors = rev(heat.colors(10)), na.value = "grey90") +
+  ggtitle(paste("Maximum Alcohol by Volume (% ABV) by State, n = ", total_states)) +
+  coord_map()
+max_abv_heat_map
+# max ibu heat map
+max_ibu_heat_map <- map.df %>% ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = max_IBU)) + geom_path() + scale_fill_gradientn(colors = rev(heat.colors(10)), na.value = "grey90") +
+  ggtitle(paste("Maximum International Bitterness Unit (IBU) by State, n = ", total_states)) + 
+  coord_map()
+max_ibu_heat_map
+# median abv heat map
+med_abv_heat_map <- map.df %>% ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = median_ABV)) + geom_path() + scale_fill_gradientn(colors = rev(heat.colors(10)), na.value = "grey90") +
+  ggtitle(paste("Median Alcohol by Volume (% ABV) by State, n = ", total_states)) +
+  coord_map()
+med_abv_heat_map
+# median ibu heat map
+med_ibu_heat_map <- map.df %>% ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = median_IBU)) + geom_path() + scale_fill_gradientn(colors = rev(heat.colors(10)), na.value = "grey90") +
+  ggtitle(paste("Median International Bitterness Unit (IBU) by State, n = ", total_states)) +
+  coord_map()
+med_ibu_heat_map
 
 # string_r, which, grepl
 # TODO search for keywords 'Ale', 'Pilsner', 'Stout'
@@ -356,7 +395,7 @@ library(e1071)
 train <- ale_and_ipa
 test <- data.frame(ABV = 0.08, IBU = 60)
 classification = knn(train[,3:4], test, train$Class, k = 5, prob = TRUE)
-matrix = confusionMatrix(table(classification, test$Class))
+matrix = confusionMatrix(table(classification, test$Class)) # TODO fix me
 
 # KNN cross validation
 
