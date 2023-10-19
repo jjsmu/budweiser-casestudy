@@ -9,11 +9,14 @@ Also saved in this repository as of October 9, 2023:
 [Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv)&
 [Breweries](https://github.com/jjsmu/group16/blob/main/Breweries.csv)
 
-*Note: the Key variable that connects the data sets is Brewery\_id in
-Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables to
-have matching column names in order to merge.*
+**Notes:** -The Key variable that connects the data sets is Brewery\_id
+in Beer.csv and Brew\_ID in Brewery.csv. Will need to rename variables
+to have matching column names in order to merge. -We assumed data was
+missing at random, and removed those observations with missing values.
+Refer to EDA.rmd file for code relating to merging, transformation and
+analysis.
 
-Data Dictionary for Beer:
+**Data Dictionary for Beer:**
 
 <table>
 <colgroup>
@@ -85,7 +88,7 @@ Data Dictionary for Beer:
 </tbody>
 </table>
 
-Data Dictionary for Brewery:
+**Data Dictionary for Brewery:**
 
 <table>
 <colgroup>
@@ -138,52 +141,12 @@ Data Dictionary for Brewery:
 
 ------------------------------------------------------------------------
 
-Directions delete eveythig under this line at end. Codebook: The code
+Directions delete eveyrthig under this line at end. Codebook: The code
 book is an explanation of concepts or definitions needed to know to
 understand the data and reproduce the analysis. This could include the
 machine and operating system the project was run on, a data dictionary
 of the data, any transformations or feature creation performed with the
 data, merging details, or any other pieces of general information that
-someone should know about the environment and data. For this project the
-codebook should be a Word doc or pdf or could be the ReadMe file in your
-GitHub repo.
-
-What is a codebook? A codebook provides information on the structure,
-contents, and layout of a data file. Users are strongly encouraged to
-review the codebook of a study before downloading the data file(s).
-
-Although codebooks vary widely in quality and amount of information
-given, a typical codebook includes:
-
-Column locations and widths for each variable Definitions of different
-record types Response codes for each variable Codes used to indicate
-nonresponse and missing data Exact questions and skip patterns used in a
-survey Other indications of the content and characteristics of each
-variable Additionally, codebooks may also contain:
-
-Frequencies of response Survey objectives Concept definitions A
-description of the survey design and methodology A copy of the survey
-questionnaire Information on data collection, data processing, and data
-quality The body of a codebook describes the content of the data file.
-The following elements are generally included for each variable in the
-data file:
-
-Variable Name: Indicates the variable number or name assigned to each
-variable in the data collection. Variable Column Location: Indicates the
-starting location and width of a variable. If the variable is a
-multiple-response type, then the width referenced is that of a single
-response. Variable Label: Indicates an abbreviated variable description
-(maximum of 40 characters) that can be used to identify the variable. In
-some cases, an expanded version of the Variable Name can be found in a
-Variable Description List. Missing Data Code: Indicates the values and
-labels of missing data. If “9” is a missing value, then the codebook
-could note “9 = Missing Data.” Other examples of missing data labels
-include “Refused,” “Don’t Know,” “Blank (No Answer),” and “Legitimate
-Skip.” Some analysis software requires that certain types of data be
-excluded from analysis and designated as “Missing Data,” (i.e.,
-inappropriate, not ascertained, not ascertainable, or ambiguous data
-categories). Users can use these “Missing Data” codes as needed. Code
-Value: Indicates the code values occurring in the data for a variable.
-Value Label: Indicates the textual definitions of the codes.
-Abbreviations commonly used in the code definitions are “DK” (“Don’t
-Know”), “NA” (“Not Ascertained”), and “INAP” (“Inapplicable”).
+someone should know about the environment and data. For this project
+thecodebook should be a Word doc or pdf or could be the ReadMe file in
+your GitHub repo.
