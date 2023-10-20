@@ -4,12 +4,32 @@
 - add links for: 
 - Recorded Presentation
 - Slides
-- Code & Explanation 
+- Code
 
 
+## Summary Memo: Analysis of Breweries and Beer Data
+*Objective:* The analysis aims to provide insights into the breweries' distribution, beer characteristics, and the relationship between beer bitterness and alcohol content.
 
+*Breweries Distribution:* We will determine the number of breweries present in each US state.
 
-*DELETE BEFORE SUBMISSION: Codebook: The code book is an explanation of concepts or definitions needed to know to understand the data and reproduce the analysis. This could include the machine and operating system the project was run on, a data dictionary of the data, any transformations or feature creation performed with the data, merging details, or any other pieces of general information that someone should know about the environment and data. For this project thecodebook should be a Word doc or pdf or could be the ReadMe file in your GitHub repo.*
+*Data Merging:* The beer data will be merged with the breweries' data. 
+
+*Handling Missing Data:* We will address the missing values across all columns for the purpose of this analysis, we treaded the missing data as MCAR (Missing Completely At Random).However, many of the missing values pertained to IBU, and if further research is done, that data should be added. 
+
+*Beer Characteristics by State:* We'll compute and visualize the median alcohol content (ABV) and bitterness (IBU) for beers in each state using a bar chart.
+
+*State with Extreme Beer Traits:* Identification of states producing the most alcoholic and bitter beers will be determined.
+
+*ABV Analysis:* An analysis and commentary on the distribution and summary statistics of the ABV variable will be provided.
+
+*Bitterness vs. Alcohol Content:* A scatter plot will be drawn to examine the relationship between beer bitterness (IBU) and its alcohol content (ABV). An interpretative analysis will follow.
+
+*KNN Classification for IPAs vs. Other Ales:* Using the KNN classification method, we'll investigate the differences in IBU and ABV between IPAs (India Pale Ales) and other types of Ale. While KNN is our primary method, we remain open to integrating other analytical approaches for a more comprehensive understanding.
+
+*Additional Insights:* In a bid to provide Budweiser with a unique value proposition, we will derive an additional inference from the data, substantiating its importance with statistical evidence.
+This analysis is designed to provide Budweiser with a thorough understanding of the U.S. craft beer landscape, guiding future strategic decisions
+
+**Summary memo written using Chat-GPT** 
 
 # Codebook For Budweiser Case study
 
@@ -18,16 +38,20 @@ Data sets obtained from Client:
 & 
 [Breweries](https://github.com/BivinSadler/MSDS_6306_Doing-Data-Science/blob/Master/Unit%208%20and%209%20Case%20Study%201/Breweries.csv)
 
+
+
 Also saved in this repository as of October 9, 2023:
 [Beers](https://github.com/jjsmu/group16/blob/main/Beers.csv) & 
 [Breweries](https://github.com/jjsmu/group16/blob/main/Breweries.csv)
 
 
+
 **Notes:** 
+- -The datasets provided consist of information on 2410 US craft beers and 558 US breweries with details such as beer name, ABV, IBU, and brewery location. 
 
 -The Key variable that connects the data sets is Brewery_id in Beer.csv and Brew_ID in Brewery.csv. We renamed variables to have matching column names in order to merge.
 
--We assumed data was missing at random, but kept those rows for completeness, and filtered out missing values when neccessary. This is detailed in the EDA.rmd file. 
+-We assumed data was missing at random, and filtered out missing values when doing analysis. This is detailed in the EDA.rmd file. 
 
 -Refer to EDA.rmd file for code relating to merging, transformation and analysis. 
 
