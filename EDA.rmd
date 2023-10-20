@@ -119,8 +119,8 @@ sum(is.na(BEERS$ABV)) # missing 62 values
 sum(is.na(BEERS$IBU)) # missing 1005 values
 sum(is.na(BEER_AND_BREWERIES)) # missing 1067 values
 
-# TODO find the missing NA value indexes
-missing_index <- which(grep(NA, BEER_AND_BREWERIES))
+# store index of rows containing NA
+missing_index <- which(is.na(BEER_AND_BREWERIES))
 missing_index
 
 # test the function complete.cases() on gg_miss_var
@@ -298,23 +298,23 @@ med_ibu_heat_map
 summary(BEER_AND_BREWERIES)
 
 plot_breweries <- BEER_AND_BREWERIES %>%
-  ggplot(aes(ABV, IBU, color = Ounces)) + geom_point(na.rm = TRUE, position = "jitter") +
+  ggplot(aes(ABV, IBU, alpha = ABV, size = Ounces, color = IBU), na.rm = TRUE) + geom_point() + geom_jitter() +
   ggtitle(paste("Scatter Plot of Alcohol by Content (% ABV) v. International Bitterness Units (IBU) by State (US), n = ", total_beers)) + xlab("ABV") + ylab("IBU")
 plot_breweries
 
 total_beers <- count(BEER_AND_BREWERIES)
 hist_abv <- BEER_AND_BREWERIES %>%
   select(Beer, ABV, Style, Ounces, Brewery) %>%
-  filter(!is.na(ABV)) %>%
-  ggplot(aes(ABV)) + geom_histogram(bins = 30, color = "red", fill = "pink") +
+  #filter(!is.na(ABV)) %>%
+  ggplot(aes(ABV), na.rm = TRUE) + geom_histogram(stat = "bin", bins = 50) +
   ggtitle(paste("Histogram of Alcohol by Volume (% ABV), n = ", total_beers)) +
   xlab("ABV") + ylab("Frequency")
 hist_abv
 
 hist_ibu <- BEER_AND_BREWERIES %>%
   select(Beer, IBU, Style, Ounces, Brewery) %>%
-  filter(!is.na(IBU)) %>%
-  ggplot(aes(IBU)) + geom_histogram(stat = "bin", bins = 50) +
+  #filter(!is.na(IBU)) %>%
+  ggplot(aes(IBU), na.rm = TRUE) + geom_histogram(stat = "bin", bins = 50) +
   ggtitle(paste("Histogram of International Bitterness Units (IBU), n = ", total_beers)) +
   xlab("IBU") + ylab("Frequency")
 hist_ibu
@@ -332,12 +332,11 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 
 # scatter plot of IBU v. ABV
 ggplot(data = BEER_AND_BREWERIES) +
-  geom_text(aes(IBU, ABV, label = State)) +
-  geom_point(mapping = aes(IBU, ABV, color = State)) +
+  geom_point(mapping = aes(IBU, ABV, color = State, size = Ounces)) +
   geom_smooth(mapping = aes(IBU, ABV, linetype = as.factor(Ounces))) +
   ggtitle(paste("Scatter plot Alcohol by Volume (% ABV) v. International Bitterness Unit (IBU) by Ounce (oz.), n = ", total_beers))+
-  xlab("ABV (%)") + ylab("IBU") + 
-  facet_wrap(~Ounces)
+  xlab("ABV (%)") + ylab("IBU")  
+  #facet_wrap(~Ounces)
 ```
 
 # PART VIII
@@ -408,7 +407,7 @@ classification = knn(trainBeers[, c("ABV", "IBU")], testBeers[, c("ABV", "IBU")]
 classification
 table <- table(classification, testBeers$Class)
 table
-CM <- confusionMatrix(table(classification, testBeers$Class), mode = "everything")
+CM <- confusionMatrix(table, mode = "everything")
 CM
 ```
 ## Internal LOOCV
@@ -416,8 +415,10 @@ CM
 # k = 5, train test only
 loocv_classification <- knn.cv(trainBeers[, c("ABV", "IBU")], trainBeers$Class, k = 5)
 loocv_classification
-loocv_table <- table(trainBeers[, c("ABV", "IBU")], trainBeers$Class)
-
+loocv_table <- table(loocv_classification, trainBeers$Class)
+loocv_table
+loocv_cm <- confusionMatrix(loocv_table, mode = "everything")
+loocv_cm
 ```
 
 # PART IX
