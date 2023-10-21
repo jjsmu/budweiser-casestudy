@@ -30,8 +30,13 @@
 # Codebook For Budweiser Case study
 
 
+# OS
+- R version 4.3.1 (2023-06-16 ucrt)
+- Platform: x86_64-w64-mingw32/x64 (64-bit)
+- Running under: Windows 10 x64 (build 19045)
+
 # Data
--  *Data sets* 
+- *Data sets* 
 - Data sets obtained from Client:
 [Beers](https://github.com/BivinSadler/MSDS_6306_Doing-Data-Science/blob/Master/Unit%208%20and%209%20Case%20Study%201/Beers.csv) 
 & 
