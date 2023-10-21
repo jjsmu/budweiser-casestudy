@@ -21,6 +21,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+sessionInfo()
+
 # R libraries
 #install.packages(dplyr)
 library(dplyr)
@@ -46,6 +48,7 @@ str(BREWERIES)
 
 # PART II EDA Visualization
 # 1.	How many breweries are present in each state?
+# (See state_counts.csv)
 ```{r}
 # visualization
 
@@ -91,6 +94,7 @@ plot(BEERS$IBU, BEERS$ABV, pch = 3, xlab = "IBU", ylab = "ABV(%)", main = paste(
 ```
 # PART II
 # 2. 	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
+# First 6 Observations
 ```{r}
 # full merge beer and breweries data frames 
 BEER_AND_BREWERIES <- merge(BEERS, BREWERIES, by.x = "Brewery_id", by.y = "Brew_ID", all = TRUE) %>%
@@ -430,16 +434,6 @@ loocv_cm
 hist_abv <- BEER_AND_BREWERIES %>%
   ggplot(aes(ABV, na.rm = TRUE)) + geom_histogram()
 hist_abv
-#TODO bar plot stack breweries by state
-#TODO bar plot stack ounces by state
-#TODO bar plot stack "Class" by state
 
-#TODO ggplotly
-#install.packages(ggthemes)
-#install.packages(ggplotly)
-library(ggthemes)
-#library(ggplotly)
-
-#eda 1: number of breweries v. median ibu
 ```
 
