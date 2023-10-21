@@ -2,13 +2,13 @@
 
 Dear CEO and CFO of Budweiser,
 
-We extend our sincere gratitude for entrusting us with the comprehensive data set encompassing a diverse range of beers and breweries. Our team has meticulously analyzed the information, employing advanced statistical techniques, while ensuring the findings are elucidated in a manner that aligns with your esteemed backgrounds.
+We extend our sincere gratitude for entrusting us with this comprehensive data set encompassing a diverse range of beers and breweries. Our team has meticulously analyzed the information, employing advanced statistical techniques, while ensuring the findings are explained in a manner that aligns with your esteemed company profile.
 
-In our journey through the data, we have delved into the intricate details of beer varieties, exploring attributes such as Alcohol By Volume (ABV), International Bitterness Units (IBU), and Beer Styles. Our focus has been on drawing meaningful insights that transcend the conventional understanding of beer categorizations, specifically honing in on the Ale and IPA classifications.
+In our journey through the data, we have delved into the fine details of beer varieties, exploring attributes such as Alcohol By Volume (ABV), International Bitterness Units (IBU), and Styles. Our focus has been on drawing meaningful insights that define the conventional understanding of beer categorizations, specifically focusing on Ale and IPA style beers.
 
-We have utilized robust methods such as the k-Nearest Neighbors algorithm, ensuring the accuracy and reliability of our findings. Additionally, we have employed k-Fold Cross Validation to validate our models, ensuring our results are not just a stroke of chance, but a reflection of underlying patterns within the data.
+We have utilized robust machine learning methods such as the k-Nearest Neighbors algorithm, ensuring the accuracy and reliability of our findings. Additionally, we have employed k-Fold Cross Validation to validate our models, ensuring our results are reproducible.
 
-Our analysis has been presented through clear, concise visualizations, aiding in the intuitive understanding of the trends and correlations unearthed. We are confident that the insights derived will serve as invaluable assets in your strategic decision-making processes, enhancing Budweiser's position in the competitive landscape of the brewing industry.
+Our analysis has been presented through clear, concise visualizations, helping you understand the trends and correlations. We are confident that our analysis will serve as an assets in your strategic decision-making processes, enhancing Budweiser's position in the competitive landscape of the brewing industry.
 
 We look forward to discussing these findings in detail, and exploring how these insights can be leveraged to propel Budweiser to new heights of success and innovation.
 
