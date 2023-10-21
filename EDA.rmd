@@ -33,8 +33,9 @@ library(tidyverse)
 
 ```{r}
 # read the csv files
-BEERS = read.csv(file.choose(), header = TRUE)
-BREWERIES = read.csv(file.choose(), header = TRUE)
+
+BEERS = read.csv ("Beers.csv", header = TRUE)
+BREWERIES = read.csv ("Breweries.csv", header = TRUE)
 # check first five rows
 head(BEERS, n = 5)
 head(BREWERIES, n = 5)
@@ -382,9 +383,9 @@ ggpairs_ale_ipa_abv_ibu_by_ounces
 ## KNN Classification
 ```{r}
 # install KNN libraries
-install.packages("class")
-install.packages("caret")
-install.packages("e1071")
+#install.packages("class")
+#install.packages("caret")
+#install.packages("e1071")
 library(class)
 library(caret)
 library(e1071)
@@ -437,7 +438,7 @@ hist_abv
 #install.packages(ggthemes)
 #install.packages(ggplotly)
 library(ggthemes)
-library(ggplotly)
+#library(ggplotly)
 
 #eda 1: number of breweries v. median ibu
 ```
