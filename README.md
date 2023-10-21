@@ -14,7 +14,7 @@
 
 *Data Merging:* The beer data will be merged with the breweries' data. 
 
-*Handling Missing Data:* We will address the missing values across all columns for the purpose of this analysis, we treaded the missing data as MCAR (Missing Completely At Random).However, many of the missing values pertained to IBU, and if further research is done, that data should be added. 
+*Handling Missing Data:* We will address the missing values across all columns for the purpose of this analysis, we treaded the missing data as MCAR (Missing Completely At Random). Please note, many of the missing values pertained to IBU. 
 
 *Beer Characteristics by State:* We'll compute and visualize the median alcohol content (ABV) and bitterness (IBU) for beers in each state using a bar chart.
 
