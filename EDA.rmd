@@ -102,8 +102,6 @@ barplot_of_breweries_by_state <- BREWERIES %>%
 barplot_of_breweries_by_state
 ```
 
-
-
 # Above Code: We ran code to group and count breweries by state. [See State Count csv file](https://github.com/jjsmu/group16/blob/main/state_counts.csv)
 
 
@@ -122,7 +120,7 @@ print(head(BEER_AND_BREWERIES, n = 6))
 print(tail(BEER_AND_BREWERIES, n = 6))
 ```
 
-# Above Code: we chekced the merged datasets
+# Above Code: we checked the merged datasets
 
 
 # PART III
@@ -167,7 +165,7 @@ median_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
   #filter(!is.na(ABV) & !is.na(IBU)) %>%
   summarize(median_ABV = median(ABV, na.rm = TRUE), median_IBU = median(IBU, na.rm = TRUE))
-median_by_state
+(median_by_state)
 
 # store sample size
 total_states <- count(median_by_state)
@@ -316,6 +314,9 @@ med_ibu_heat_map
 # TODO search for keywords 'Ale', 'Pilsner', 'Stout'
 ```
 
+# Above code: CO has the maximum alcoholic (ABV) beer. OR has the most bitter (IBU) beer
+
+
 # PART VI
 # 6.	Comment on the summary statistics and distribution of the ABV variable.
 ```{r}
@@ -352,6 +353,10 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 
 ```
 
+
+# Above code: ABV is weakly correletd with higher IBU
+
+
 # PART VII
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
 ```{r}
@@ -364,6 +369,8 @@ ggplot(data = BEER_AND_BREWERIES) +
   xlab("ABV (%)") + ylab("IBU")  
   #facet_wrap(~Ounces)
 ```
+
+# Above Code: There is an apparent relationship between the bitterness of the beer and its alcoholic content, the higher the IBU the more likely it is the the ABV is also higher
 
 # PART VIII
 #8.	Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) and other types of Ale (any beer with “Ale” in its name other than IPA).  You decide to use KNN classification to investigate this relationship.  Provide statistical evidence one way or the other. You can of course assume your audience is comfortable with percentages … KNN is very easy to understand conceptually. 
@@ -447,6 +454,8 @@ loocv_cm <- confusionMatrix(loocv_table, mode = "everything")
 loocv_cm
 ```
 
+Above code: KNN support the finding that IBU and ABV seem to be positivly correlated  
+
 # PART IX
 #9.	Knock their socks off!  Find one other useful inference from the data that you feel Budweiser may be able to find value in.  You must convince them why it is important and back up your conviction with appropriate statistical evidence. 
 
@@ -457,4 +466,9 @@ hist_abv <- BEER_AND_BREWERIES %>%
 hist_abv
 
 ```
+
+Above code: TBD
+
+
+
 
