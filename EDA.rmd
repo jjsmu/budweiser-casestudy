@@ -333,6 +333,7 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 
 # PART VII
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
+# Our observations suggest a weak positive correlation between the bitterness of the beer and its alcoholic content. A linear regression plot confirms this with IBU values increasing with respect to ABV range. The rate at which ABV increases as IBU increases is also greater with respect to IPA style beers. Furthermore, EDA of distributions of ABV by IBU in histogram plots show a center of mean of ABV and IBU for IPA greater than Ale beers. We conclude the relationship between bitterness and alcohol content corresponds to the "hoppiness" in beers.
 ```{r}
 
 # scatter plot of IBU v. ABV
@@ -366,7 +367,7 @@ ipa_abv_ibu$Class <- "IPA"
 # combine ale and ipa list
 ale_and_ipa <- rbind(ipa_abv_ibu, ale_abv_ibu)
 ```
-
+## Plot ale and ipa distributions
 ```{r}
 #install package and load library
 library(GGally)
@@ -385,6 +386,7 @@ ggpairs_ale_ipa_abv_ibu_by_ounces <- ale_and_ipa %>%
 ggpairs_ale_ipa_abv_ibu_by_ounces
 ```
 ## KNN Classification
+# Evaluate the ML classification model using K-Nearest Neighbor algorithm to predict ale and IPA class
 ```{r}
 # install KNN libraries
 #install.packages("class")
@@ -416,6 +418,7 @@ CM <- confusionMatrix(table, mode = "everything")
 CM
 ```
 ## Internal LOOCV
+# Use leave one out cross validation function to estimate ale and ipa classification model performance
 ```{r}
 # k = 5, train test only
 loocv_classification <- knn.cv(trainBeers[, c("ABV", "IBU")], trainBeers$Class, k = 5)
