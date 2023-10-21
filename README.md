@@ -29,7 +29,6 @@
 - [HTML file](https://github.com/jjsmu/group16/blob/main/EDA.html)
 # Codebook For Budweiser Case study
 
-
 # OS
 - R version 4.3.1 (2023-06-16 ucrt)
 - Platform: x86_64-w64-mingw32/x64 (64-bit)
