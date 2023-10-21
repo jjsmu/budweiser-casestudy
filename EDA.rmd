@@ -1,22 +1,13 @@
 ---
 title: "EDA Budweiser dataset"
-author: "jjsmu"
+author: "jjsmu & rm"
 date: "10/8/2023"
 output: html_document
-
-#1.	How many breweries are present in each state?
-#2.	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
-#3.	Address the missing values in each column.
-#4.	Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
-#5.	Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
-#6.	Comment on the summary statistics and distribution of the ABV variable.
-#7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
-#8.	Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) and other types of Ale (any beer with “Ale” in its name other than IPA).  You decide to use KNN classification to investigate this relationship.  Provide statistical evidence one way or the other. You can of course assume your audience is comfortable with percentages … KNN is very easy to understand conceptually. 
-#In addition, while you have decided to use KNN to investigate this relationship (KNN is required) you may also feel free to supplement your response to this question with any other methods or techniques you have learned.  Creativity and alternative solutions are always encouraged.  
-
-#9.	Knock their socks off!  Find one other useful inference from the data that you feel Budweiser may be able to find value in.  You must convince them why it is important and back up your conviction with appropriate statistical evidence. 
-
 ---
+
+# Introduction
+[See Summary memo](https://github.com/jjsmu/group16/tree/main#summary-memo-analysis-of-breweries-and-beer-data)
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -31,6 +22,9 @@ library(ggplot2)
 #install.packages("tidyverse")
 library(tidyverse)
 ```
+
+# Above Code: Installing R libraries needed for analysis 
+
 # PART I Import data
 
 ```{r}
@@ -45,6 +39,9 @@ head(BREWERIES, n = 5)
 str(BEERS)
 str(BREWERIES)
 ```
+
+# Above Code: Checking Beer & breweries datasets before anlalysis. 
+
 
 # PART II EDA Visualization
 # 1.	How many breweries are present in each state?
@@ -92,6 +89,22 @@ barplot_of_breweries_by_state
 plot(BEERS$IBU, BEERS$ABV, pch = 3, xlab = "IBU", ylab = "ABV(%)", main = paste("Scatter Plot of International Bitterness Unit v. Alcohol by Content, n = ", total_beers))
   
 ```
+
+##  bar plot of breweries by state
+
+```{r state, echo=FALSE}
+barplot_of_breweries_by_state <- BREWERIES %>%
+  group_by(State) %>%
+  ggplot(aes(State, fill = State)) + geom_bar(stat = "count") +
+  ggtitle(paste("Barplot of Breweries by State (US), n = ", total_breweries)) +
+  xlab("State") + ylab("Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot_of_breweries_by_state
+```
+
+# Above Code: We ran code to group and count breweries by state. [See State Count csv file](https://github.com/jjsmu/group16/blob/main/state_counts.csv)
+
+
 # PART II
 # 2. 	Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.  (RMD only, this does not need to be included in the presentation or the deck.)
 # First 6 Observations
@@ -106,6 +119,9 @@ print(head(BEER_AND_BREWERIES, n = 6))
 # print the last 6 observations
 print(tail(BEER_AND_BREWERIES, n = 6))
 ```
+
+# Above Code: we checked the merged datasets
+
 
 # PART III
 # 3.	Address the missing values in each column.
@@ -136,6 +152,9 @@ gg_miss_var(BEERS[complete.cases(BEERS$IBU, BEERS$ABV), ])
 
 # NOTE: South Dakota IBU is NA for all, missing IBU data
 ```
+
+# Above Code: Adressed missing values in datasets. See Codebook for additional information
+
 # PART IV 
 # 4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 
@@ -146,7 +165,7 @@ median_by_state <- BEER_AND_BREWERIES %>%
   group_by(State) %>%
   #filter(!is.na(ABV) & !is.na(IBU)) %>%
   summarize(median_ABV = median(ABV, na.rm = TRUE), median_IBU = median(IBU, na.rm = TRUE))
-median_by_state
+(median_by_state)
 
 # store sample size
 total_states <- count(median_by_state)
@@ -295,6 +314,9 @@ med_ibu_heat_map
 # TODO search for keywords 'Ale', 'Pilsner', 'Stout'
 ```
 
+# Above code: CO has the maximum alcoholic (ABV) beer. OR has the most bitter (IBU) beer
+
+
 # PART VI
 # 6.	Comment on the summary statistics and distribution of the ABV variable.
 ```{r}
@@ -331,6 +353,10 @@ boxplot(BEERS$IBU~BEERS$Style, las = 2, names.arg = BEERS$Style, main = paste("B
 
 ```
 
+
+# Above code: ABV is weakly correletd with higher IBU
+
+
 # PART VII
 # 7.	Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.  Make your best judgment of a relationship and EXPLAIN your answer.
 # Our observations suggest a weak positive correlation between the bitterness of the beer and its alcoholic content. A linear regression plot confirms this with IBU values increasing with respect to ABV range. The rate at which ABV increases as IBU increases is also greater with respect to IPA style beers. Furthermore, EDA of distributions of ABV by IBU in histogram plots show a center of mean of ABV and IBU for IPA greater than Ale beers. We conclude the relationship between bitterness and alcohol content corresponds to the "hoppiness" in beers.
@@ -344,6 +370,8 @@ ggplot(data = BEER_AND_BREWERIES) +
   xlab("ABV (%)") + ylab("IBU")  
   #facet_wrap(~Ounces)
 ```
+
+# Above Code: There is an apparent relationship between the bitterness of the beer and its alcoholic content, the higher the IBU the more likely it is the the ABV is also higher
 
 # PART VIII
 #8.	Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) and other types of Ale (any beer with “Ale” in its name other than IPA).  You decide to use KNN classification to investigate this relationship.  Provide statistical evidence one way or the other. You can of course assume your audience is comfortable with percentages … KNN is very easy to understand conceptually. 
@@ -429,6 +457,8 @@ loocv_cm <- confusionMatrix(loocv_table, mode = "everything")
 loocv_cm
 ```
 
+Above code: KNN support the finding that IBU and ABV seem to be positivly correlated  
+
 # PART IX
 #9.	Knock their socks off!  Find one other useful inference from the data that you feel Budweiser may be able to find value in.  You must convince them why it is important and back up your conviction with appropriate statistical evidence. 
 
@@ -439,4 +469,9 @@ hist_abv <- BEER_AND_BREWERIES %>%
 hist_abv
 
 ```
+
+Above code: TBD
+
+
+
 
