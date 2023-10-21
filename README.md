@@ -21,7 +21,7 @@ Group 6
 - [Presentation Recording](https://smu.zoom.us/rec/share/r9-9Y3vzjyNYPyWkb0vkyWsP19tHeI7tMli1XtIW6XjIHpj6nZBq2PemOKPACtgl.QlkdbGwch0Q6zC9N)
   
 ### Purpose: Budweiser Casestudy 01 
-- This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv contains  are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry.  
+- This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry in the United States. A KNN machine learning model is implemented for classification and regression tasks to predict the beer style by it's alcohol and bitterness content. Finally, a k-fold cross validation is introduced to ensure the validity of our model. In essence, the purpose of this casestudy is to analyze the current market segment, classify and predict beer style trends regionally across the US.
 
 ## Summary Memo: Analysis of Breweries and Beer Data
 *Objective:* The analysis aims to provide insights into the breweries' distribution, beer characteristics, and the relationship between beer bitterness and alcohol content.
