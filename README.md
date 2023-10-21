@@ -2,7 +2,7 @@
 
 Dear CEO and CFO of Budweiser,
 
-I extend my sincere gratitude for entrusting us with the comprehensive data set encompassing a diverse range of beers and breweries. Our team has meticulously analyzed the information, employing advanced statistical techniques, while ensuring the findings are elucidated in a manner that aligns with your esteemed backgrounds.
+We extend our sincere gratitude for entrusting us with the comprehensive data set encompassing a diverse range of beers and breweries. Our team has meticulously analyzed the information, employing advanced statistical techniques, while ensuring the findings are elucidated in a manner that aligns with your esteemed backgrounds.
 
 In our journey through the data, we have delved into the intricate details of beer varieties, exploring attributes such as Alcohol By Volume (ABV), International Bitterness Units (IBU), and Beer Styles. Our focus has been on drawing meaningful insights that transcend the conventional understanding of beer categorizations, specifically honing in on the Ale and IPA classifications.
 
