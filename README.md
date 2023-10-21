@@ -1,34 +1,6 @@
 *Presentation for the CEO and CFO of Budweiser (group1-6)*
 
-
-- add links for: 
-- Recorded Presentation
-- Slides
-- Code
-
-Introduction:
-
-Subject: Comprehensive Data Analysis Report and Strategic Insights
-
-Dear CEO and CFO,
-
-I am delighted to present to you our comprehensive data analysis report, meticulously compiled to offer valuable insights that will guide our strategic decision-making processes. Our team has diligently worked to distill complex statistical findings into clear, actionable information, ensuring that the content is accessible and immediately applicable, regardless of one’s statistical background.
-
-The data entrusted to us has been meticulously examined, employing a range of statistical techniques tailored to uncover the underlying patterns, trends, and anomalies. Our analysis aims to illuminate aspects of our operations and market engagements that are performing exceptionally well, while also pinpointing areas that may warrant a closer look or a strategic pivot.
-
-In crafting this report, we have remained cognizant of the imperative to communicate our findings in a manner that transcends the complexities of statistical jargon. We have striven to ensure that each insight is articulated clearly, supported by visual aids where necessary, and contextualized within our broader business landscape.
-
-We believe that the findings enclosed herein will not only validate our current strategic directions but also unveil opportunities for innovation, efficiency, and growth. We are confident that this report will serve as a valuable tool in our collective endeavor to fortify Budweiser’s market leadership and foster sustained prosperity.
-
-I am eager to delve into the details of our findings and discuss how we can translate these insights into concrete actions that align with our strategic objectives. Your insights and directives have been invaluable in this process, and I am keen to ensure that this analysis serves as a robust foundation for our ongoing collaborative efforts.
-
-Thank you for entrusting us with this important task. I look forward to our continued partnership and the mutual success that lies ahead.
-
-Best regards,
-
-Group 6
-
-Purpose:
+Purpose: Budweiser Casestudy 01 - This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv contains  are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry.  
 
 ## Summary Memo: Analysis of Breweries and Beer Data
 *Objective:* The analysis aims to provide insights into the breweries' distribution, beer characteristics, and the relationship between beer bitterness and alcohol content.
