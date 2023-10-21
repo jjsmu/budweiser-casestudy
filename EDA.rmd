@@ -263,7 +263,7 @@ lookup
 # create state map data frame
 us_states <- map_data("state")
 us_states$subregion <- NULL
-us_states
+#us_states
 
 # Found the bug! Blank space prevents merging, use trimws function
 unique(breweries_map_data$State)
