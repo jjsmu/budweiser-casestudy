@@ -2,9 +2,10 @@
 - [Presentation Slides](https://github.com/jjsmu/group16/blob/main/Group_6_Budweiser_Casestudy_01.pdf)
 - [Presentation Recording](https://smu.zoom.us/rec/share/r9-9Y3vzjyNYPyWkb0vkyWsP19tHeI7tMli1XtIW6XjIHpj6nZBq2PemOKPACtgl.QlkdbGwch0Q6zC9N)
   
-Purpose: Budweiser Casestudy 01 - This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv contains  are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry.  
+### Purpose: Budweiser Casestudy 01 
+- This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv contains  are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry.  
 
-## Summary Memo: Analysis of Breweries and Beer Data
+<!--- ## Summary Memo: Analysis of Breweries and Beer Data
 *Objective:* The analysis aims to provide insights into the breweries' distribution, beer characteristics, and the relationship between beer bitterness and alcohol content.
 
 *Breweries Distribution:* We will determine the number of breweries present in each US state.
@@ -26,7 +27,7 @@ Purpose: Budweiser Casestudy 01 - This case study examines the distributions and
 *Additional Insights:* In a bid to provide Budweiser with a unique value proposition, we will derive an additional inference from the data, substantiating its importance with statistical evidence.
 This analysis is designed to provide Budweiser with a thorough understanding of the U.S. craft beer landscape, guiding future strategic decisions
 
-**Summary memo written using Chat-GPT** 
+**Summary memo written using Chat-GPT** ---> 
 
 ### Code
 - [RMD file](https://github.com/jjsmu/group16/blob/main/EDA.rmd)
