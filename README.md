@@ -1,5 +1,7 @@
 *Presentation for the CEO and CFO of Budweiser (group1-6)*
-
+- [Presentation Slides](https://github.com/jjsmu/group16/blob/main/Group_6_Budweiser_Casestudy_01.pdf)
+- [Presentation Recording](https://smu.zoom.us/rec/share/r9-9Y3vzjyNYPyWkb0vkyWsP19tHeI7tMli1XtIW6XjIHpj6nZBq2PemOKPACtgl.QlkdbGwch0Q6zC9N)
+  
 Purpose: Budweiser Casestudy 01 - This case study examines the distributions and center of mean and median values for all beers sold by breweries listed in the dataset. The two datasets: Beers.csv and Breweries.csv contains  are combined to study the relationship between alcohol by content and bitterness to understand the current trends in the alcohol beverage industry.  
 
 ## Summary Memo: Analysis of Breweries and Beer Data
@@ -26,6 +28,9 @@ This analysis is designed to provide Budweiser with a thorough understanding of 
 
 **Summary memo written using Chat-GPT** 
 
+### Code
+- [RMD file](https://github.com/jjsmu/group16/blob/main/EDA.rmd)
+- [HTML file](https://github.com/jjsmu/group16/blob/main/EDA.html)
 # Codebook For Budweiser Case study
 
 Data sets obtained from Client:
@@ -42,13 +47,13 @@ Also saved in this repository as of October 9, 2023:
 
 
 **Notes:** 
-- -The datasets provided consist of information on 2410 US craft beers and 558 US breweries with details such as beer name, ABV, IBU, and brewery location. 
+- The datasets provided consist of information on 2410 US craft beers and 558 US breweries with details such as beer name, ABV, IBU, and brewery location. 
 
--The Key variable that connects the data sets is Brewery_id in Beer.csv and Brew_ID in Brewery.csv. We renamed variables to have matching column names in order to merge.
+- The Key variable that connects the data sets is Brewery_id in Beer.csv and Brew_ID in Brewery.csv. We renamed variables to have matching column names in order to merge.
 
--We assumed data was missing at random, and filtered out missing values when doing analysis. This is detailed in the EDA.rmd file. 
+- We assumed data was missing at random, and filtered out missing values when doing analysis. This is detailed in the EDA.rmd file. 
 
--Refer to EDA.rmd file for code relating to merging, transformation and analysis. 
+- Refer to [EDA.rmd](https://github.com/jjsmu/group16/blob/main/EDA.rmd) file for code relating to merging, transformation and analysis. 
 
 **Data Dictionary for Beer:**
 
