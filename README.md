@@ -1,6 +1,6 @@
 ### Introduction
 
-Dear CEO and CFO of Budweiser,
+Letter to the CEO and CFO of Budweiser,
 
 We extend our sincere gratitude for entrusting us with this comprehensive data set encompassing a diverse range of beers and breweries. Our team has meticulously analyzed the information, employing advanced statistical techniques, while ensuring the findings are explained in a manner that aligns with your esteemed company profile.
 
