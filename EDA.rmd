@@ -258,7 +258,7 @@ lookup = data.frame(State = state.abb, region = state.name) #makes a data frame 
 lookup <- bind_rows(lookup, data.frame(State = "DC", region = "Washington DC")) # Add missing row
 lookup <- lookup %>% arrange(lookup$State)
 lookup$region <- tolower(lookup$region)
-lookup
+#lookup
 
 # create state map data frame
 us_states <- map_data("state")
@@ -276,7 +276,7 @@ breweries_lookup
 # merge breweries lookup and us states by region
 map.df <- merge(breweries_lookup, us_states, by = "region", all.x = T)
 map.df <- map.df[order(map.df$order),] # arrange order desc, fix polygon clipping
-map.df
+#map.df
 
 # plot the map data
 breweries_heat_map <- map.df %>% ggplot(aes(x=long,y=lat,group=group))+
@@ -384,7 +384,7 @@ ale_abv_ibu <- BEER_AND_BREWERIES %>%
   filter(grepl("Ale", Style))
 ale_abv_ibu$Class <- "Ale"
 dim(ale_abv_ibu)
-ale_abv_ibu
+#ale_abv_ibu
 
 # filter by ipa
 ipa_abv_ibu <- BEER_AND_BREWERIES %>%
