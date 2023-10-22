@@ -465,7 +465,7 @@ ggpairs_ale_ipa_abv_ibu_by_ounces
 
 ```
 
-Above code: EDA distribution plot of all beers by Ounce. The 3x3 plot shows the distribution of ABV and IBU values of beers by serving size. There is no evidence to suggest a correlation between ABV and IBU values with respect to beer styles, however shows that 12 and 16 oz. servings are the most popular sizes. With additional data such as pricing, this information could be used, for example, to determine an entry point for Budweiser to compare and price their products with respect to other distributors in the US.
+Above code: EDA distribution plot of all beers by Ounce. The 3x3 plot shows the distribution of ABV and IBU values of beers by serving size. There is no evidence to suggest a correlation between ABV and IBU values with respect to ounce, however shows that 12 and 16 oz. servings are the most popular sizes. With additional data such as pricing, this information could be used, for example, to determine an entry point for Budweiser to compare and price their new products with respect to other distributors in the US.
 
 
 
