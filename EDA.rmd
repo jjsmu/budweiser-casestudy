@@ -406,12 +406,6 @@ ggpairs_ale_ipa_abv_ibu_by_class <- ale_and_ipa %>%
   ggpairs(aes(color = Class))
 ggpairs_ale_ipa_abv_ibu_by_class
 # suppress warning: standard deviation is zero - ABV, IBU NA values
-
-# plot ggpairs by ounce ipa v. ale
-ggpairs_ale_ipa_abv_ibu_by_ounces <- ale_and_ipa %>%
-  select(ABV, IBU, Ounces) %>% 
-  ggpairs(aes(na.rm = TRUE, color = as.factor(Ounces)))
-ggpairs_ale_ipa_abv_ibu_by_ounces
 ```
 ## KNN Classification
 # Evaluate the ML classification model using K-Nearest Neighbor algorithm to predict ale and IPA class
@@ -463,14 +457,15 @@ Above code: KNN support the finding that IBU and ABV seem to be positivly correl
 #9.	Knock their socks off!  Find one other useful inference from the data that you feel Budweiser may be able to find value in.  You must convince them why it is important and back up your conviction with appropriate statistical evidence. 
 
 ```{r}
-# use of themes and advanced plots
-hist_abv <- BEER_AND_BREWERIES %>%
-  ggplot(aes(ABV, na.rm = TRUE)) + geom_histogram()
-hist_abv
+# plot ggpairs by ounce ipa v. ale
+ggpairs_ale_ipa_abv_ibu_by_ounces <- ale_and_ipa %>%
+  select(ABV, IBU, Ounces) %>% 
+  ggpairs(aes(na.rm = TRUE, color = as.factor(Ounces)))
+ggpairs_ale_ipa_abv_ibu_by_ounces
 
 ```
 
-Above code: TBD
+Above code: EDA distribution plot of all beers by Ounce. The 3x3 plot shows the distribution of ABV and IBU values of beers by serving size. There is no evidence to suggest a correlation between ABV and IBU values with respect to beer styles, however shows that 12 and 16 oz. servings are the most popular sizes. With additional data such as pricing, this information could be used, for example, to determine an entry point for Budweiser to compare and price their products with respect to other distributors in the US.
 
 
 
